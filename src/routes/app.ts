@@ -1,4 +1,5 @@
 import Home from '../pages/Home/Home';
+import Landing from '../pages/Landing/Landing';
 import User from '../pages/User';
 
 export interface AppRouteType {
@@ -7,7 +8,6 @@ export interface AppRouteType {
 }
 
 export const appRoutes: AppRouteType[] = [
-  // sample route
   {
     to: '/',
     element: Home
@@ -15,5 +15,9 @@ export const appRoutes: AppRouteType[] = [
   {
     to: '/users/:id',
     element: User
+  },
+  {
+    to: '/landing',
+    element: Landing,
   },
 ];

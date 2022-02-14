@@ -7,11 +7,16 @@ export const theme = createTheme({
     button: {
       fontWeight: 700,
     },
+
+    h1: {
+      fontSize: 'clamp(3rem, 10vw, 5rem)',
+      fontWeight: 600,
+    },
   },
 
   palette: {
     primary: {
-      main: '#f14140',
+      main: '#9020fb',
     },
   },
 });
