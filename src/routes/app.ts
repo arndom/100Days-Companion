@@ -10,11 +10,11 @@ export interface AppRouteType {
 export const appRoutes: AppRouteType[] = [
   {
     to: '/',
-    element: Home
+    element: Home,
   },
   {
     to: '/users/:id',
-    element: User
+    element: User,
   },
   {
     to: '/landing',

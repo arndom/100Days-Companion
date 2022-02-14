@@ -1,12 +1,11 @@
 import { Box, Card } from '@mui/material';
 
-
-
 const User = (): JSX.Element => {
-    return <Box>
-        <Card>
-        </Card>
-    </Box>;
-}
+  return (
+    <Box>
+      <Card></Card>
+    </Box>
+  );
+};
 
-export default User; 
+export default User;
