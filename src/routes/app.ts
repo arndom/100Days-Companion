@@ -1,4 +1,5 @@
 import Home from '../pages/Home/Home';
+import User from '../pages/User';
 
 export interface AppRouteType {
   to: string;
@@ -9,6 +10,10 @@ export const appRoutes: AppRouteType[] = [
   // sample route
   {
     to: '/',
-    element: Home,
+    element: Home
+  },
+  {
+    to: '/users/:id',
+    element: User
   },
 ];
