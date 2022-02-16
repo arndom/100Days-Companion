@@ -59,15 +59,15 @@ const Landing = () => {
           <Typography>
             Made with ❤️ by
             <Button target="_blank" href="http://github.com/arndom" className={classes.link} disableRipple>
-              Mohammed Al-Amin
+              Nabil
             </Button>
             ,
             <Button target="_blank" href="https://github.com/Omzlaw" className={classes.link} disableRipple>
-              Omeiza ohinoyi e okene
+              Omeiza
             </Button>
             ,
             <Button target="_blank" href="http://github.com/habib-ahmad" className={classes.link} disableRipple>
-              Habib Ahmad
+              Ahmad
             </Button>
           </Typography>
         </Grid>
