@@ -17,6 +17,31 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 
+  roadmap: {
+    '&.MuiButton-root': {
+      background: 'linear-gradient(to right, #F26E3F, #9020fb)',
+      border: 'none',
+      borderRadius: '30px',
+      padding: '3px',
+      display: 'block',
+      marginLeft: 'auto',
+
+      '&:hover': {
+        border: 'none',
+      },
+    },
+
+    '&>.MuiTypography-root': {
+      borderRadius: '30px',
+      background: '#0e0219',
+      width: '100%',
+      padding: theme.spacing(1, 3),
+      textTransform: 'none',
+      fontSize: '1rem',
+      color: '#fff',
+    },
+  },
+
   header: {
     margin: theme.spacing(12, 0, 9, 0),
 
@@ -26,42 +51,47 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
 
   heading: {
-    paddingTop: theme.spacing(4),
-    marginBottom: theme.spacing(4),
+    '&.MuiTypography-root': {
+      paddingTop: theme.spacing(4),
+      marginBottom: theme.spacing(4),
+    },
+  },
 
-    [theme.breakpoints.down('md')]: {
-      marginBottom: theme.spacing(40),
+  btn: {
+    '&.MuiButton-root': {
+      width: 180,
+      height: 48,
+      borderRadius: 30,
+      fontSize: '1rem ',
     },
   },
 
   feature: {
     textAlign: 'center',
+    border: '1px solid #7f5ba13d',
+    borderRadius: 10,
+    minHeight: 150,
+    minWidth: 250,
+    backgroundColor: '#7f5ba13d',
 
     '&.MuiGrid-root': {
-      padding: theme.spacing(0, 3),
+      padding: theme.spacing(2),
       marginBottom: theme.spacing(5),
-
-      [theme.breakpoints.down('md')]: {
-        padding: theme.spacing(0, 2),
-      },
-
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(0),
-      },
     },
   },
 
   featureHeading: {
     '&.MuiTypography-root': {
       fontSize: '1.5rem',
-      marginBottom: theme.spacing(),
+      marginBottom: theme.spacing(2),
       fontWeight: 600,
     },
   },
 
   featureBody: {
     '&.MuiTypography-root': {
-      color: '#ffffffc7',
+      color: '#ffffffc4',
+      padding: theme.spacing(0, 4),
 
       [theme.breakpoints.down('sm')]: {
         fontSize: '1rem',
@@ -70,11 +100,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
 
   footer: {
-    textAlign: 'center',
-
-    '&.MuiGrid-root': {
-      marginTop: theme.spacing(20),
-    },
+    marginTop: theme.spacing(20),
+    borderTop: '1px solid #fff',
+    paddingTop: theme.spacing(2),
   },
 
   link: {
@@ -85,7 +113,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       minWidth: 0,
       fontWeight: 400,
       fontSize: '.875rem',
-      color: '#0A0A9A',
+      color: '#fff',
 
       '&:hover': {
         backgroundColor: 'transparent',
