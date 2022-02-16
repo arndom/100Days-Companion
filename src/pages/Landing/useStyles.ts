@@ -71,6 +71,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     border: '1px solid #7f5ba13d',
     borderRadius: 10,
     minHeight: 150,
+    minWidth: 250,
     backgroundColor: '#7f5ba13d',
 
     '&.MuiGrid-root': {
