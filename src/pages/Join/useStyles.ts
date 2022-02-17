@@ -62,7 +62,6 @@ export const useStyles = {
     alignItems: 'center',
   },
 
-
   datePickerTextfield: {
     '& .MuiOutlinedInput-root': {
       border: '2px solid #F26E3F',
