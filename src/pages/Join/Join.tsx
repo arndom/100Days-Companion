@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import React from 'react';
+import React, { useState } from 'react';
 import { useStyles } from './useStyles';
 
 const steps = ['Connect Github', 'Select Path', 'Set Date '];
@@ -75,14 +75,14 @@ const LangCard = ({ title, options }: ILangCard) => {
 };
 
 const Join = () => {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
   const FElanguages = ['HTML & CSS', 'JS', 'React', 'Vue', 'Angular'];
   const BElanguages = ['JS', 'Node/Express', 'Python', 'Django', 'Flask'];
 
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = useState(null);
 
   return (
     <Box sx={classes.root}>
