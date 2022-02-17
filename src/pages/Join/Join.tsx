@@ -45,25 +45,20 @@ interface ILangCard {
 
 const LangCard = ({ title, options }: ILangCard) => {
   return (
-    <Card sx={{ width: 300 }}>
+    <Card sx={{ width: 300, background: '#292950' }}>
       <CardContent>
-        <Typography variant="h6" color="text.secondary" gutterBottom>
+        <Typography variant="h6" sx={{ color: '#fff' }} gutterBottom>
           {title}
         </Typography>
         <FormGroup>
           {options.map((lang, i) => (
             <FormControlLabel
               key={i}
-              control={
-                <Checkbox
-                  color={title === 'Frontend' ? 'primary' : title === 'Email Notifications' ? 'success' : 'secondary'}
-                  defaultChecked
-                />
-              }
+              control={<Checkbox color="secondary" defaultChecked />}
               label={lang}
               sx={{
                 span: {
-                  color: 'black',
+                  color: 'white ',
                 },
               }}
             />
