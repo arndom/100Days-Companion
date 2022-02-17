@@ -11,12 +11,15 @@ import {
   FormGroup,
   Checkbox,
   TextField,
+  Grid,
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import React from 'react';
+import { useStyles } from './useStyles';
 
-const steps = ['Connect Github', 'Select Path', 'Set Date'];
+const steps = ['Connect Github', 'Select Path', 'Set Date '];
+const classes = useStyles;
 
 interface IButton {
   onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
@@ -24,7 +27,7 @@ interface IButton {
 
 const GithubButton = ({ onClick }: IButton) => {
   return (
-    <Button onClick={onClick} variant="contained" sx={{ background: 'linear-gradient(to right, #F26E3F, #9020fb)' }}>
+    <Button onClick={onClick} variant="contained" sx={classes.rainbowbtn}>
       <Typography mr={2}>Connect Github</Typography>
       <img
         src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
@@ -82,50 +85,17 @@ const Join = () => {
   const [value, setValue] = React.useState(null);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ width: '80%', m: 'auto', pt: 4, height: 64 }}>
+    <Box sx={classes.root}>
+      <Box sx={classes.stepperContainer}>
         <Stepper activeStep={activeStep}>
           {steps.map((label) => {
             const stepProps = {};
             const labelProps = {};
 
             return (
-              <Step
-                sx={{
-                  color: 'blue',
-                  svg: {
-                    width: 35,
-                    height: 35,
-                    fontSize: '3rem',
-                    fill: '#0e0219',
-                    border: '2px  solid #F26E3F',
-                    borderRadius: '100%',
-                    '&.Mui-active': {
-                      fill: '#F26E3F',
-                      border: '0px',
-                    },
-                    '&.Mui-completed': {
-                      fill: '#fff',
-                      border: '0px',
-                    },
-                  },
-                }}
-                key={label}
-                {...stepProps}
-              >
-                <StepLabel
-                  sx={{
-                    fontSize: '100px',
-                    color: '#fff',
-                    '&.Mui-completed': {
-                      color: '#fff',
-                    },
-                  }}
-                  {...labelProps}
-                >
-                  <Typography sx={{ color: '#fff' }} mr={2}>
-                    {label}
-                  </Typography>
+              <Step sx={classes.step} key={label} {...stepProps}>
+                <StepLabel sx={classes.stepLabel} {...labelProps}>
+                  <Typography sx={{ color: '#fff' }}>{label}</Typography>
                 </StepLabel>
               </Step>
             );
@@ -133,57 +103,40 @@ const Join = () => {
         </Stepper>
       </Box>
 
-      <Box sx={{ display: 'grid', placeItems: 'center', height: 'calc(100vh - 64px)' }}>
+      <Box sx={classes.content}>
         {activeStep === 0 && <GithubButton onClick={handleNext} />}
 
         {activeStep === 1 && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', gap: 3 }}>
-              <LangCard title="Frontend" options={FElanguages} />
-              <LangCard title="Backend" options={BElanguages} />
-            </Box>
-            <Button
-              onClick={handleNext}
-              variant="contained"
-              sx={{ background: 'linear-gradient(to right, #F26E3F, #9020fb)' }}
-            >
+          <Box sx={classes.step2}>
+            <Grid container spacing={3} justifyContent="center">
+              <Grid item>
+                <LangCard title="Frontend" options={FElanguages} />
+              </Grid>
+              <Grid item>
+                <LangCard title="Backend" options={BElanguages} />
+              </Grid>
+            </Grid>
+
+            <Button onClick={handleNext} variant="contained" sx={classes.rainbowbtn}>
               Next
             </Button>
           </Box>
         )}
 
         {activeStep === 2 && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column-reverse', gap: 3 }}>
-              {/* <LangCard title="Email Notifications" options={['Daily', 'Weekly']} /> */}
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  value={value}
-                  onChange={(newValue) => {
-                    setValue(newValue);
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      sx={{
-                        '& .MuiOutlinedInput-root': {
-                          border: '2px solid #F26E3F',
-
-                          input: {
-                            color: '#fff',
-                          },
-
-                          svg: {
-                            fill: '#fff',
-                          },
-                        },
-                      }}
-                      color="secondary"
-                      {...params}
-                    />
-                  )}
-                />
-              </LocalizationProvider>
-            </Box>
+          <Box sx={classes.step3}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Typography variant="h6" mb={1} sx={{ color: '#fff' }}>
+                Choose Start Date
+              </Typography>
+              <DatePicker
+                value={value}
+                onChange={(newValue) => {
+                  setValue(newValue);
+                }}
+                renderInput={(params) => <TextField sx={classes.datePickerTextfield} color="secondary" {...params} />}
+              />
+            </LocalizationProvider>
 
             <Button variant="contained" sx={{ background: 'linear-gradient(to right, #F26E3F, #9020fb)' }}>
               Done

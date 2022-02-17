@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import type {} from '@mui/lab/themeAugmentation';
 
 export const theme = createTheme({
   typography: {
@@ -9,10 +10,6 @@ export const theme = createTheme({
       textTransform: 'none',
     },
 
-    // allVariants: {
-    //   color: '#fff',
-    // },
-
     h1: {
       fontSize: 'clamp(3rem, 10vw, 5rem)',
       fontWeight: 600,
@@ -22,9 +19,11 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#9020fb',
+      contrastText: '#fff',
     },
     secondary: {
       main: '#F26E3F',
+      contrastText: '#fff',
     },
     background: {
       default: '#0e0219',
@@ -45,6 +44,14 @@ export const theme = createTheme({
           '&:hover': {
             border: 'none',
           },
+        },
+      },
+    },
+
+    MuiYearPicker: {
+      styleOverrides: {
+        root: {
+          color: '#000 !important',
         },
       },
     },
