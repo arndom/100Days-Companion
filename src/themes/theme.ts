@@ -6,6 +6,11 @@ export const theme = createTheme({
     fontSize: 12,
     button: {
       fontWeight: 700,
+      textTransform: 'none',
+    },
+
+    allVariants: {
+      color: '#fff',
     },
 
     h1: {
@@ -17,6 +22,31 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#9020fb',
+    },
+    secondary: {
+      main: '#F26E3F',
+    },
+    background: {
+      default: '#0e0219',
+    },
+  },
+
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          borderRadius: '30px',
+          padding: '3px',
+          borderWidth: '20px',
+          width: 180,
+          height: 48,
+          fontSize: '1rem ',
+
+          '&:hover': {
+            border: 'none',
+          },
+        },
+      },
     },
   },
 });

@@ -63,6 +63,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       height: 48,
       borderRadius: 30,
       fontSize: '1rem ',
+      textTransform: 'uppercase',
     },
   },
 

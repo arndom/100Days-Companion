@@ -1,4 +1,5 @@
 import Home from '../pages/Home/Home';
+import Join from '../pages/Join/Join';
 import Landing from '../pages/Landing/Landing';
 import User from '../pages/User';
 
@@ -19,5 +20,9 @@ export const appRoutes: AppRouteType[] = [
   {
     to: '/landing',
     element: Landing,
+  },
+  {
+    to: '/join',
+    element: Join,
   },
 ];
