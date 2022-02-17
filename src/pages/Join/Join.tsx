@@ -10,10 +10,13 @@ import {
   FormControlLabel,
   FormGroup,
   Checkbox,
+  TextField,
 } from '@mui/material';
+import { LocalizationProvider, DatePicker } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import React from 'react';
 
-const steps = ['Connect Github', 'Select Path', 'Set Preferences'];
+const steps = ['Connect Github', 'Select Path', 'Set Date'];
 
 interface IButton {
   onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
@@ -41,7 +44,7 @@ const LangCard = ({ title, options }: ILangCard) => {
   return (
     <Card sx={{ width: 300 }}>
       <CardContent>
-        <Typography variant="h5" color="text.secondary" gutterBottom>
+        <Typography variant="h6" color="text.secondary" gutterBottom>
           {title}
         </Typography>
         <FormGroup>
@@ -75,6 +78,8 @@ const Join = () => {
 
   const FElanguages = ['HTML & CSS', 'JS', 'React', 'Vue', 'Angular'];
   const BElanguages = ['JS', 'Node/Express', 'Python', 'Django', 'Flask'];
+
+  const [value, setValue] = React.useState(null);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -118,7 +123,9 @@ const Join = () => {
                   }}
                   {...labelProps}
                 >
-                  <Typography mr={2}>{label}</Typography>
+                  <Typography sx={{ color: '#fff' }} mr={2}>
+                    {label}
+                  </Typography>
                 </StepLabel>
               </Step>
             );
@@ -147,11 +154,39 @@ const Join = () => {
 
         {activeStep === 2 && (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', gap: 3 }}>
-              <LangCard title="Email Notifications" options={['Daily', 'Weekly']} />
+            <Box sx={{ display: 'flex', flexDirection: 'column-reverse', gap: 3 }}>
+              {/* <LangCard title="Email Notifications" options={['Daily', 'Weekly']} /> */}
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          border: '2px solid #F26E3F',
+
+                          input: {
+                            color: '#fff',
+                          },
+
+                          svg: {
+                            fill: '#fff',
+                          },
+                        },
+                      }}
+                      color="secondary"
+                      {...params}
+                    />
+                  )}
+                />
+              </LocalizationProvider>
             </Box>
+
             <Button variant="contained" sx={{ background: 'linear-gradient(to right, #F26E3F, #9020fb)' }}>
-              Next
+              Done
             </Button>
           </Box>
         )}

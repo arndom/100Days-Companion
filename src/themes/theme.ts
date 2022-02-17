@@ -9,9 +9,9 @@ export const theme = createTheme({
       textTransform: 'none',
     },
 
-    allVariants: {
-      color: '#fff',
-    },
+    // allVariants: {
+    //   color: '#fff',
+    // },
 
     h1: {
       fontSize: 'clamp(3rem, 10vw, 5rem)',
