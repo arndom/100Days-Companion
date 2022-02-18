@@ -1,4 +1,5 @@
 import axios from 'axios';
+import 'dotenv/config';
 
 interface ILedgenode {
   name: string;
@@ -48,7 +49,7 @@ const request = (data: any, headers: any) => {
   });
 };
 
-const GITHUB_SECRET = process.env.GITHUB_SECRET;
+const GITHUB_SECRET = process.env.GH_SECRET;
 
 export const fetchTopLanguages = async (user: string) => {
   const fetcher = () => {
@@ -60,7 +61,7 @@ export const fetchTopLanguages = async (user: string) => {
                 repositories(ownerAffiliations: OWNER, isFork: false, first: 100) {
                   nodes {
                     name
-                    languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+                    languages(first: 30, orderBy: {field: SIZE, direction: DESC}) {
                       edges {
                         size
                         node {
@@ -80,8 +81,6 @@ export const fetchTopLanguages = async (user: string) => {
     );
   };
 
-  console.log(fetcher);
-
   const res = await fetcher().then((res: ILGithubResponse) => {
     return res;
   });
@@ -89,6 +88,8 @@ export const fetchTopLanguages = async (user: string) => {
   if (res.data.errors) {
     console.error(res.data.errors);
   }
+
+  if (res.data.data.user === null) return;
 
   let repoNodes: any = res.data.data.user.repositories.nodes;
 
