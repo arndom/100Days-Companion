@@ -89,7 +89,7 @@ export const fetchTopLanguages = async (user: string) => {
     console.error(res.data.errors);
   }
 
-  if (res.data.data.user === null) return;
+  if (res.data.data.user === null) return { error: 'username nonexistent' };
 
   let repoNodes: any = res.data.data.user.repositories.nodes;
 
