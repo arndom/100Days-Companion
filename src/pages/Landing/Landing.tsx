@@ -1,5 +1,6 @@
-import { Button, Grid, IconButton, Typography } from '@mui/material';
+import { Button, Grid, IconButton, Typography, Box } from '@mui/material';
 import { AnimatedSVG } from '../../assets/svgs/animatedSVG';
+import logo from '../../assets/images/logo.png';
 import { useStyles } from './useStyles';
 
 const Landing = () => {
@@ -8,7 +9,12 @@ const Landing = () => {
   return (
     <Grid container className={classes.landing}>
       <Grid item xs={6}>
-        Logo
+        <Box className={classes.logo}>
+          <img src={logo} alt="logo" height={40} width={40} />
+          <Typography variant="h6" ml={1}>
+            Companion
+          </Typography>
+        </Box>
       </Grid>
       <Grid item xs={6}>
         <Button variant="outlined" className={classes.roadmap} disableRipple>
