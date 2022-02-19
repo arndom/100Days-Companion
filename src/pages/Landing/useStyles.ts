@@ -17,6 +17,11 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 
+  logo: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
   roadmap: {
     '&.MuiButton-root': {
       background: 'linear-gradient(to right, #F26E3F, #9020fb)',
