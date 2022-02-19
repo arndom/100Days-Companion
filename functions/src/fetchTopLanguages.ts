@@ -61,7 +61,7 @@ export const fetchTopLanguages = async (user: string) => {
                 repositories(ownerAffiliations: OWNER, isFork: false, first: 100) {
                   nodes {
                     name
-                    languages(first: 30, orderBy: {field: SIZE, direction: DESC}) {
+                    languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
                       edges {
                         size
                         node {
