@@ -71,6 +71,11 @@ export const useStyles = {
     label: { color: 'white', textAlign: 'right' },
     marginTop: '2em',
     marginBottom: '2em',
+
+    '& .MuiOutlinedInput-input': {
+      background: '#292950',
+      borderRadius: '10px',
+    },
   },
 
   feature: {

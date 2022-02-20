@@ -85,7 +85,7 @@ const PublicRoadmap = () => {
         </Grid>
       </Grid>
       <Grid container item direction="row" justifyContent="flex-end">
-        <TextField sx={classes.search} label="Search"></TextField>
+        <TextField sx={classes.search} placeholder="Search..."></TextField>
       </Grid>
       <Grid container item direction="row" justifyContent="flex-start">
         <Card sx={classes.feature}>
