@@ -20,11 +20,6 @@ export const appRoutes: AppRouteType[] = [
   {
     to: '/',
     element: Home,
-    subRoutes: [
-      { to: 'milestones', element: Milestones },
-      { to: 'statistics', element: Statistics },
-      { to: 'settings', element: Settings },
-    ],
   },
   {
     to: 'users/:id',
@@ -39,7 +34,7 @@ export const appRoutes: AppRouteType[] = [
     element: Join,
   },
   {
-    to: '/roadmap',
+    to: 'roadmap',
     element: PublicRoadmap,
   },
 ];
