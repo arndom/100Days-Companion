@@ -1,7 +1,4 @@
 import Home from '../pages/Home/Home';
-import Milestones from '../pages/Home/Milestones/Milestones';
-import Settings from '../pages/Home/Settings/Settings';
-import Statistics from '../pages/Home/Statistics/Statistics';
 import Join from '../pages/Join/Join';
 import Landing from '../pages/Landing/Landing';
 import User from '../pages/User';
