@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import type {} from '@mui/lab/themeAugmentation';
 
 export const theme = createTheme({
   typography: {
@@ -6,6 +7,7 @@ export const theme = createTheme({
     fontSize: 12,
     button: {
       fontWeight: 700,
+      textTransform: 'none',
     },
 
     h1: {
@@ -17,6 +19,41 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#9020fb',
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: '#f26e3f',
+      contrastText: '#fff',
+    },
+    background: {
+      default: '#0e0219',
+    },
+  },
+
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          borderRadius: '30px',
+          padding: '3px',
+          borderWidth: '20px',
+          width: 180,
+          height: 48,
+          fontSize: '1rem ',
+
+          '&:hover': {
+            border: 'none',
+          },
+        },
+      },
+    },
+
+    MuiYearPicker: {
+      styleOverrides: {
+        root: {
+          color: '#000 !important',
+        },
+      },
     },
   },
 });

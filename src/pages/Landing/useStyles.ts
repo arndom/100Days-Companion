@@ -17,6 +17,11 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 
+  logo: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
   roadmap: {
     '&.MuiButton-root': {
       background: 'linear-gradient(to right, #F26E3F, #9020fb)',
@@ -63,6 +68,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       height: 48,
       borderRadius: 30,
       fontSize: '1rem ',
+      textTransform: 'uppercase',
     },
   },
 
