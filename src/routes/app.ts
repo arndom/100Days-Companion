@@ -22,7 +22,7 @@ export const appRoutes: AppRouteType[] = [
     element: Landing,
   },
   {
-    to: '/public-roadmap',
+    to: '/roadmap',
     element: PublicRoadmap,
   },
 ];

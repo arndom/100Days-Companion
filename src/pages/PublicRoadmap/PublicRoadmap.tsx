@@ -9,11 +9,13 @@ import {
   ListItemText,
   Divider,
   IconButton,
-  InputBase,
   Button,
+  TextField,
 } from '@mui/material';
-import { KeyboardArrowUp, SearchRounded } from '@mui/icons-material';
+import { KeyboardArrowUp } from '@mui/icons-material';
 import { useStyles } from './useStyles';
+
+const classes = useStyles;
 
 interface IRoadmapStatusCard {
   title: string;
@@ -22,38 +24,36 @@ interface IRoadmapStatusCard {
 }
 
 const RoadmapStatusCard = ({ title, color, options }: IRoadmapStatusCard) => {
-  const classes = useStyles();
   return (
-    <Card sx={{ width: 415, height: 400, background: '#292950' }}>
+    <Card sx={classes.roadmapStatusCard}>
       <CardContent>
-        <Typography variant="h6" sx={{ color: '#fff', marginBottom: '10px' }}>
-          <span style={{ background: `${color}` }} className={classes.title}>
+        <Typography variant="h6">
+          <Box component="span" sx={{ background: `${color}` }}>
             {title.toUpperCase()}
-          </span>
+          </Box>
         </Typography>
-        <List sx={{ width: '100%', maxWidth: 360 }}>
+        <List>
           {options.map((option, index) => (
             <ListItem
               key={index}
-              sx={{ paddingLeft: 0 }}
               secondaryAction={
-                <IconButton aria-label="more details">
-                  <Box>
-                    <KeyboardArrowUp sx={{ color: '#9020fb' }} />
-                    <Typography sx={{ color: '#fff' }}>{option.votes}</Typography>
-                  </Box>
-                </IconButton>
+                <Box>
+                  <Grid container>
+                    <IconButton edge="end" aria-label="vote">
+                      <KeyboardArrowUp sx={{ color: '#9020fb' }} />
+                    </IconButton>
+                  </Grid>
+                  <Grid container sx={{ paddingLeft: '11px' }}>
+                    <Typography>52</Typography>
+                  </Grid>
+                </Box>
               }
             >
-              <Divider
-                orientation="vertical"
-                sx={{ height: '4rem', borderLeft: `3px solid ${color}`, marginRight: '7px' }}
-              />
+              <Divider orientation="vertical" sx={{ borderLeft: `3px solid ${color}` }} />
               <ListItemText
-                className={classes.listItemText}
                 primary={option.title}
                 secondary={option.type}
-                secondaryTypographyProps={{ color: '#fff', marginTop: '2px' }}
+                secondaryTypographyProps={{ marginTop: '2px' }}
               />
             </ListItem>
           ))}
@@ -64,8 +64,6 @@ const RoadmapStatusCard = ({ title, color, options }: IRoadmapStatusCard) => {
 };
 
 const PublicRoadmap = () => {
-  const classes = useStyles();
-
   const suggestions = [
     { title: 'Courses', type: 'Feature request', votes: 10 },
     { title: 'Courses', type: 'Feature request', votes: 10 },
@@ -75,53 +73,48 @@ const PublicRoadmap = () => {
   const live = [{ title: 'Courses', type: 'Feature request', votes: 10 }];
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={6}>
-        Logo
-      </Grid>
-      <Grid item xs={6}>
-        <Button variant="outlined" className={classes.home} disableRipple>
-          <Typography>Home</Typography>
-        </Button>
-      </Grid>
-      <Grid container gap={4}>
-        <Grid sx={{ marginTop: '20px' }} container xs={12} direction="row" justifyContent="flex-end">
-          <IconButton aria-label="search" sx={{ marginBottom: '6px' }}>
-            <InputBase sx={{ color: '#fff' }} placeholder="Search" />
-            <SearchRounded sx={{ color: '#fff', marginRight: '3px' }} />
-          </IconButton>
+    <Grid sx={classes.root} container>
+      <Grid container item>
+        <Grid item xs={6}>
+          Logo
         </Grid>
-        <Grid item xs={12}>
-          <Card sx={{ maxWidth: 415, height: 50, background: '#292950' }}>
-            <CardContent>
-              <Grid container>
-                <Grid item xs={6}>
-                  <Typography sx={{ color: '#fff' }}>Feature requests</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography sx={{ color: '#fff' }}>
-                    <span style={{ background: '#f26e3f' }} className={classes.title}>
-                      58
-                    </span>
-                  </Typography>
-                </Grid>
+        <Grid item xs={6}>
+          <Button variant="outlined" sx={classes.login} disableRipple>
+            <Typography>Login</Typography>
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid container item direction="row" justifyContent="flex-end">
+        <TextField sx={classes.search} label="Search"></TextField>
+      </Grid>
+      <Grid container item direction="row" justifyContent="flex-start">
+        <Card sx={classes.feature}>
+          <CardContent>
+            <Grid container item justifyContent="space-between">
+              <Grid item>
+                <Typography>Feature requests</Typography>
               </Grid>
-            </CardContent>
-          </Card>
+              <Grid item>
+                <Typography>
+                  <Box component="span">89</Box>
+                </Typography>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid container item spacing={4}>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <RoadmapStatusCard title="Suggestions" color="#9020fb" options={suggestions} />
         </Grid>
-        <Grid item container spacing={4} xs={12}>
-          <Grid item>
-            <RoadmapStatusCard title="Suggestions" color="#9020fb" options={suggestions} />
-          </Grid>
-          <Grid item>
-            <RoadmapStatusCard title="Planned" color="#1B3C40" options={planned} />
-          </Grid>
-          <Grid item>
-            <RoadmapStatusCard title="In Progress" color="#3E3418" options={inProgress} />
-          </Grid>
-          <Grid item>
-            <RoadmapStatusCard title="Live" color="#223E2B" options={live} />
-          </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <RoadmapStatusCard title="Planned" color="#1B3C40" options={planned} />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <RoadmapStatusCard title="In Progress" color="#3E3418" options={inProgress} />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <RoadmapStatusCard title="Live" color="#223E2B" options={live} />
         </Grid>
       </Grid>
     </Grid>
