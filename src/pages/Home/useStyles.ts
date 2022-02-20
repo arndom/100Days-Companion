@@ -23,13 +23,22 @@ export const useStyles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '80px',
+    height: 120,
+
+    '.MuiTypography-root': {
+      fontSize: '1.5rem',
+      fontWeight: 600,
+    },
   },
   link: {
     fontSize: 'clamp(1.2rem, 6vw, 1.7rem)',
-    color: '#fff',
+    width: 300,
+
+    '&.MuiTab-textColorPrimary': {
+      color: '#fff',
+    },
   },
   tabs: {
     color: '#fff',
   },
-};
+} as const;

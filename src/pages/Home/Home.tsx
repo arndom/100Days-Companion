@@ -5,6 +5,15 @@ import { Link, Outlet } from 'react-router-dom';
 
 const classes = useStyles;
 
+interface LinkTabProps {
+  label: string;
+  to: string;
+}
+
+const LinkTab = (props: LinkTabProps) => {
+  return <Tab component={Link} {...props} sx={classes.link} disableRipple />;
+};
+
 const Home = (): JSX.Element => {
   const [value, setValue] = useState(0);
 
@@ -41,12 +50,3 @@ const Home = (): JSX.Element => {
 };
 
 export default Home;
-
-interface LinkTabProps {
-  label: string;
-  to: string;
-}
-
-const LinkTab = (props: LinkTabProps) => {
-  return <Tab component={Link} {...props} sx={classes.link} disableRipple />;
-};
