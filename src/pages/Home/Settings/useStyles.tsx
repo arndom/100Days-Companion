@@ -30,4 +30,19 @@ export const useStyles = {
       color: '#9020fb',
     },
   },
+
+  avatar: {
+    border: '1px solid #fff',
+    padding: '2em 0 0 0',
+    '& .MuiAvatar-root': {
+      width: 120,
+      height: 120,
+      margin: '0 auto',
+    },
+  },
+
+  displayName: {
+    fontSize: '1.2em',
+    marginTop: '1em',
+  },
 };
