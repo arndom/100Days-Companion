@@ -1,16 +1,5 @@
 import { useState } from 'react';
-import {
-  Box,
-  Grid,
-  Typography,
-  Radio,
-  RadioGroup,
-  FormControl,
-  FormControlLabel,
-  Avatar,
-  IconButton,
-} from '@mui/material';
-import { Edit } from '@mui/icons-material';
+import { Grid, Typography, Radio, RadioGroup, FormControl, FormControlLabel } from '@mui/material';
 
 import { useStyles } from './useStyles';
 
