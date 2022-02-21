@@ -1,6 +1,6 @@
 export const useStyles = {
   notifications: {
-    fontSize: '1.7em',
+    fontSize: '1.3em',
     marginBottom: '1em',
   },
 

@@ -58,7 +58,7 @@ export const useStyles = {
   },
 
   link: {
-    fontSize: 'clamp(1.5rem, 6vw, 1.7rem)',
+    fontSize: 'clamp(1.2rem, 6vw, 1.2rem)',
     width: 250,
 
     '&.MuiTab-textColorPrimary': {

@@ -29,10 +29,9 @@ const Settings = (): JSX.Element => {
   };
 
   return (
-    <Grid container columnSpacing={40} rowSpacing={15} justifyContent="center">
+    <Grid container columnSpacing={40} rowSpacing={15} justifyContent="flex-start">
       <Grid item>
-        <Typography sx={classes.notifications}>Notifications</Typography>
-        <Typography>Frequency</Typography>
+        <Typography sx={classes.notifications}>Notifications Frequency</Typography>
         <FormControl sx={classes.frequency}>
           <RadioGroup aria-labelledby="frequency" name="frequency" value={frequency} onChange={handleFrequencyChange}>
             <FormControlLabel value="daily" control={<Radio />} label="Daily" />
@@ -40,30 +39,12 @@ const Settings = (): JSX.Element => {
           </RadioGroup>
         </FormControl>
 
-        <Typography>App</Typography>
+        <Typography sx={classes.notifications}>Notifcations App</Typography>
         <FormControl sx={classes.app}>
           <RadioGroup aria-labelledby="app" name="app" value={app} onChange={handleAppChange}>
             <FormControlLabel value="email" control={<Radio />} label="Email" />
           </RadioGroup>
         </FormControl>
-      </Grid>
-      <Grid item>
-        <Box sx={classes.avatar}>
-          <Avatar />
-          <Grid container justifyContent="flex-end">
-            <IconButton>
-              <Edit sx={{ color: '#fff' }} />
-            </IconButton>
-          </Grid>
-        </Box>
-        <Box>
-          <Typography sx={classes.displayName}>
-            Display Name: Human O A
-            <IconButton>
-              <Edit sx={{ color: '#fff' }} />
-            </IconButton>
-          </Typography>
-        </Box>
       </Grid>
     </Grid>
   );
