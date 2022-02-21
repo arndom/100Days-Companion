@@ -23,21 +23,19 @@ const Home = (): JSX.Element => {
 
   return (
     <Box sx={classes.home}>
-      <Box sx={classes.header}>
-        <Box sx={classes.profile}>
-          <Avatar sx={classes.avatar} />
-          <Box sx={classes.textWrapper}>
-            <Typography>Human 0A</Typography>
-            <Typography>Javascript</Typography>
-            <Typography>6/100</Typography>
-          </Box>
+      <Box sx={classes.profile}>
+        <Avatar sx={classes.avatar} />
+        <Box sx={classes.textWrapper}>
+          <Typography>Human 0A</Typography>
+          <Typography>Javascript</Typography>
+          <Typography>6/100</Typography>
+          <Button variant="text" size="small" sx={classes.btn}>
+            Logout
+          </Button>
         </Box>
-        <Button size="small" variant="contained">
-          Logout
-        </Button>
       </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={classes.tabsWrapper}>
         <Tabs value={value} onChange={handleChange} variant="scrollable" sx={classes.tabs}>
           <LinkTab label="Milestones" to="milestones" />
           <LinkTab label="Statistics" to="statistics" />
