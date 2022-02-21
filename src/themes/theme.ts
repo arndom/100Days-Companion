@@ -36,14 +36,20 @@ export const theme = createTheme({
         contained: {
           borderRadius: '30px',
           padding: '3px',
-          borderWidth: '20px',
-          width: 180,
-          height: 48,
-          fontSize: '1rem ',
 
           '&:hover': {
             border: 'none',
           },
+        },
+
+        sizeMedium: {
+          width: 180,
+          height: 48,
+        },
+
+        sizeSmall: {
+          width: 80,
+          fontSize: '0.875rem',
         },
       },
     },

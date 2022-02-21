@@ -65,13 +65,11 @@ const Landing = () => {
           <Typography>
             Made with ❤️ by
             <Button target="_blank" href="http://github.com/arndom" className={classes.link} disableRipple>
-              Nabil
+              Nabil,
             </Button>
-            ,
             <Button target="_blank" href="https://github.com/Omzlaw" className={classes.link} disableRipple>
-              Omeiza
+              Omeiza,
             </Button>
-            ,
             <Button target="_blank" href="http://github.com/habib-ahmad" className={classes.link} disableRipple>
               Ahmad
             </Button>

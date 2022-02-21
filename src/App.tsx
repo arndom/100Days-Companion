@@ -6,7 +6,14 @@ import { AppRouteType, appRoutes } from './routes/app';
 import NotFound from './pages/NotFound/NotFound';
 
 function renderRoute(route: AppRouteType, index: number): JSX.Element {
-  return <Route key={index} path={route.to} element={<route.element />} />;
+  return (
+    <Route key={index} path={route.to} element={<route.element />}>
+      {route.subRoutes &&
+        route.subRoutes.map((subRoute, subIndex) => (
+          <Route key={subIndex} path={subRoute.to} element={<subRoute.element />} />
+        ))}
+    </Route>
+  );
 }
 
 const App = (): JSX.Element => {

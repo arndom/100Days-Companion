@@ -115,8 +115,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     '&.MuiButton-root': {
       textTransform: 'capitalize',
       padding: 0,
-      margin: '0 0 0 5px',
       minWidth: 0,
+      width: 'auto',
+      marginLeft: 5,
       fontWeight: 400,
       fontSize: '.875rem',
       color: '#fff',
