@@ -35,7 +35,7 @@ const getUsers = async (notificationFrequency: string) => {
   const users = await admin
     .firestore()
     .collection('users')
-    .where('notificationFrequency', '==', notificationFrequency)
+    .where('notification_frequency', '==', notificationFrequency)
     .get();
   const usersArray = users.docs.map((doc) => {
     return doc.data();
@@ -50,7 +50,7 @@ export const sendMail = async (notificationFrequency: string) => {
       const mailOptions: MailOptions = {
         from: '100 Days Companion',
         subject: 'Your daily reminder',
-        text: `Hi ${user.username},\n\nThis is your daily reminder.\n\nYou can check your progress here: https://100dayscompanion.com/users/${user.username}\n`,
+        text: `Hi ${user.name},\n\nThis is your daily reminder.\n\nYou can check your progress here: https://100dayscompanion.com/users/${user.name}\n`,
         to: '',
       };
       mailOptions.to = user.email;
