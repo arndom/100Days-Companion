@@ -22,7 +22,7 @@ export const sendEmails = functions.https.onRequest(async (request, response) =>
 });
 
 // Send daily mails by 1:00 AM
-export const dailyMails = functions.pubsub.schedule('0 1 * * *').onRun(async (context) => {
+export const dailyMails = functions.pubsub.schedule('0 1 * * *').onRun(async () => {
   functions.logger.info('Sending daily mails...', { structuredData: true });
 
   const sendMails = await sendMail('daily');
@@ -30,7 +30,7 @@ export const dailyMails = functions.pubsub.schedule('0 1 * * *').onRun(async (co
 });
 
 // Send weekly mails every Sunday by 1:00 AM
-export const weeklyMails = functions.pubsub.schedule('0 1 * * Sun').onRun(async (context) => {
+export const weeklyMails = functions.pubsub.schedule('0 1 * * Sun').onRun(async () => {
   functions.logger.info('Sending weekly mails...', { structuredData: true });
 
   const sendMails = await sendMail('weekly');

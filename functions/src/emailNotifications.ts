@@ -66,30 +66,3 @@ export const sendMail = async (notificationFrequency: string) => {
     return error;
   }
 };
-
-// Get users with weekly notifications with firebase subscription
-
-// Cron job to send emails for daily notifications
-// const dailyEmailCron = cron.schedule(
-//   '0 1 * * *',
-//   () => {
-//     console.log('Running a job at 01:00 AM');
-//   },
-//   {
-//     scheduled: true,
-//     timezone: 'Africa/Lagos',
-//   },
-// );
-
-// // Cron job to send emails for weekly notifications
-
-// const weeklyEmailCron = cron.schedule(
-//   '0 1 * * Sun',
-//   () => {
-//     console.log('Running a job every sunday by 01:00 AM');
-//   },
-//   {
-//     scheduled: true,
-//     timezone: 'Africa/Lagos',
-//   },
-// );
