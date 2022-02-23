@@ -1,9 +1,9 @@
 import { theme } from '../../../themes/theme';
 export const useStyles = {
   root: {
-    paddingLeft: '12em',
+    paddingLeft: theme.spacing(12),
     [theme.breakpoints.down('md')]: {
-      paddingLeft: '0',
+      paddingLeft: 0,
     },
   },
 
@@ -11,14 +11,26 @@ export const useStyles = {
     border: '1px solid #ccc',
     height: '300px',
     margin: theme.spacing(0, 10),
+    [theme.breakpoints.down('md')]: {
+      margin: theme.spacing(5, 5),
+    },
   },
 
   badges: {
-    marginLeft: '40px',
-    width: '200px',
+    marginLeft: theme.spacing(5),
+    marginTop: theme.spacing(2),
+
+    '& .MuiListItemText-root': {
+      marginLeft: theme.spacing(2),
+    },
   },
 
   languages: {
-    marginLeft: '2px',
+    marginLeft: theme.spacing(5),
+    marginTop: theme.spacing(2),
+
+    '& .MuiListItemText-root': {
+      marginLeft: theme.spacing(2),
+    },
   },
 };

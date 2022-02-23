@@ -1,6 +1,11 @@
 import { Grid, Box, Typography, List, ListItem, ListItemText } from '@mui/material';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { useStyles } from './useStyles';
+import gem1 from '../../../assets/images/gem1.png';
+import gem2 from '../../../assets/images/gem2.png';
+import gem3 from '../../../assets/images/gem3.png';
+import gem4 from '../../../assets/images/gem4.png';
+import gem5 from '../../../assets/images/gem5.png';
 
 const classes = useStyles;
 
@@ -13,7 +18,7 @@ const Chart = (props: ChartProps) => (
     <LineChart data={props.data} margin={{ top: 5, right: 55, bottom: 5, left: 0 }}>
       <Line type="monotone" dataKey="frequency" stroke="#8884d8" />
       <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-      <XAxis dataKey="name" />
+      <XAxis dataKey="date" />
       <YAxis />
       <Tooltip />
     </LineChart>
@@ -22,29 +27,29 @@ const Chart = (props: ChartProps) => (
 
 const Statistics = (): JSX.Element => {
   const earnedBadges = [
-    { name: '1 Month', image: '../../../assets/images/gem1.png' },
-    { name: '21 Days', image: '../../../assets/images/gem2.png' },
-    { name: '2 Months', image: '../../../assets/images/gem3.png' },
-    { name: '7 Days', image: '../../../assets/images/gem4.png' },
-    { name: 'Capstone', image: '../../../assets/images/gem5.png' },
+    { name: '1 Month', image: gem1 },
+    { name: '21 Days', image: gem2 },
+    { name: '2 Months', image: gem3 },
+    { name: '7 Days', image: gem4 },
+    { name: 'Capstone', image: gem5 },
   ];
 
   const topLanguages = [
-    { name: 'JavaScript', image: '../../../assets/images/gem1.png' },
-    { name: 'TypeScript', image: '../../../assets/images/gem2.png' },
-    { name: 'React', image: '../../../assets/images/gem3.png' },
-    { name: 'NodeJs', image: '../../../assets/images/gem4.png' },
-    { name: 'Angular', image: '../../../assets/images/gem5.png' },
+    { name: 'JavaScript', image: gem1 },
+    { name: 'TypeScript', image: gem2 },
+    { name: 'React', image: gem3 },
+    { name: 'NodeJs', image: gem4 },
+    { name: 'Angular', image: gem5 },
   ];
 
   const frequencyData = [
-    { name: 'Day 1', frequency: 20 },
-    { name: 'Day 2', frequency: 10 },
-    { name: 'Day 3', frequency: 5 },
-    { name: 'Day 4', frequency: 6 },
-    { name: 'Day 5', frequency: 10 },
-    { name: 'Day 6', frequency: 12 },
-    { name: 'Day 7', frequency: 8 },
+    { date: 'Day 1', frequency: 20 },
+    { date: 'Day 2', frequency: 10 },
+    { date: 'Day 3', frequency: 5 },
+    { date: 'Day 4', frequency: 6 },
+    { date: 'Day 5', frequency: 10 },
+    { date: 'Day 6', frequency: 12 },
+    { date: 'Day 7', frequency: 8 },
   ];
 
   return (
@@ -63,7 +68,7 @@ const Statistics = (): JSX.Element => {
           <List>
             {earnedBadges.map((badge, index) => (
               <ListItem key={index}>
-                <img src={badge.image} alt="" />
+                <img width="20" height="20" src={badge.image} alt="" />
                 <ListItemText primary={badge.name} />
               </ListItem>
             ))}
@@ -74,7 +79,7 @@ const Statistics = (): JSX.Element => {
           <List>
             {topLanguages.map((language, index) => (
               <ListItem key={index}>
-                <img src={language.image} alt="" />
+                <img width="20" height="20" src={language.image} alt="" />
                 <ListItemText primary={language.name} />
               </ListItem>
             ))}
