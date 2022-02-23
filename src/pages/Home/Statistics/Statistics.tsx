@@ -10,7 +10,7 @@ import gem5 from '../../../assets/images/gem5.png';
 const classes = useStyles;
 
 interface ChartProps {
-  data: any[];
+  data: unknown[];
 }
 
 const Chart = (props: ChartProps) => (
