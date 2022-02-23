@@ -62,8 +62,8 @@ const Statistics = (): JSX.Element => {
           <Box sx={classes.calendar}></Box>
         </Grid>
       </Grid>
-      <Grid container item>
-        <Grid sx={classes.badges} item xs={12} sm={12} md={6}>
+      <Grid container item justifyContent="flex-start">
+        <Grid sx={classes.badges}>
           <Typography>Earned badges</Typography>
           <List>
             {earnedBadges.map((badge, index) => (
@@ -74,7 +74,7 @@ const Statistics = (): JSX.Element => {
             ))}
           </List>
         </Grid>
-        <Grid sx={classes.languages} item xs={12} sm={12} md={6}>
+        <Grid sx={classes.languages}>
           <Typography>Top Languages</Typography>
           <List>
             {topLanguages.map((language, index) => (

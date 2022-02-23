@@ -17,7 +17,7 @@ export const useStyles = {
   },
 
   badges: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(7),
     marginTop: theme.spacing(2),
 
     '& .MuiListItemText-root': {
