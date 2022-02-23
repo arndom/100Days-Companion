@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import { useStyles } from './useStyles';
+// import { useStyles } from './useStyles';
 
-const classes = useStyles;
+// const classes = useStyles;
 
 interface ChartProps {
   data: any[];
@@ -21,7 +21,7 @@ const Chart = (props: ChartProps) => (
 );
 
 const Statistics = (): JSX.Element => {
-  const data = [
+  const frequencyData = [
     { name: 'Day 1', frequency: 20 },
     { name: 'Day 2', frequency: 10 },
     { name: 'Day 3', frequency: 5 },
@@ -34,7 +34,7 @@ const Statistics = (): JSX.Element => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={12} md={6}>
-        <Chart data={data} />
+        <Chart data={frequencyData} />
       </Grid>
     </Grid>
   );
