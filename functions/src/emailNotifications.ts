@@ -50,7 +50,7 @@ export const sendMail = async (notificationFrequency: string) => {
       const mailOptions: MailOptions = {
         from: '100 Days Companion',
         subject: 'Your daily reminder',
-        text: `Hi ${user.name},\n\nThis is your daily reminder.\n\nYou can check your progress here: https://100dayscompanion.com/users/${user.name}\n`,
+        text: `Hi ${user.name},\n\nThis is your reminder to keep pushing awesome code.\n\nYou can check your progress here: https://companion.netlify.app\n`,
         to: '',
       };
       mailOptions.to = user.email;

@@ -32,6 +32,7 @@ export const useStyles = {
 
   btn: {
     justifyContent: 'left',
+    width: 'fit-content',
 
     [theme.breakpoints.down('sm')]: {
       margin: 'auto',
@@ -46,7 +47,7 @@ export const useStyles = {
     height: 120,
 
     '.MuiTypography-root': {
-      fontSize: '1.5rem',
+      fontSize: '1.15rem',
       fontWeight: 600,
     },
   },
