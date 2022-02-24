@@ -8,6 +8,14 @@ interface IMilestones {
   '100days': boolean;
 }
 
+interface IStack {
+  [JS: string]: boolean;
+  [React: string]: boolean;
+  [Vue: string]: boolean;
+  [Angular: string]: boolean;
+  [Node: string]: boolean;
+}
+
 interface IFirebaseUser {
   name: string | null;
   email: string | null;
@@ -15,9 +23,6 @@ interface IFirebaseUser {
   count: number;
   milestones: IMilestones;
   notificationFrequency: string;
-  paths: {
-    fe: sring[];
-    be: string[];
-  };
+  stack: IStack;
   startDate: string;
 }

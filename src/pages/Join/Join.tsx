@@ -8,11 +8,11 @@ import {
   StepLabel,
   Stepper,
   Typography,
-  FormControlLabel,
   FormGroup,
   Checkbox,
   TextField,
   Grid,
+  FormControlLabel,
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -46,9 +46,21 @@ const GithubButton = () => {
 interface ILangCard {
   title: string;
   options: string[];
+  newUser: IFirebaseUser;
+  setNewUser: React.Dispatch<React.SetStateAction<IFirebaseUser>>;
 }
 
-const LangCard = ({ title, options }: ILangCard) => {
+const LangCard = ({ title, options, newUser, setNewUser }: ILangCard) => {
+  const handleChange = (lang: string, state: boolean) => {
+    setNewUser({
+      ...newUser,
+      stack: {
+        ...newUser.stack,
+        [lang]: !state,
+      },
+    });
+  };
+
   return (
     <Card sx={{ width: 300, background: '#292950' }}>
       <CardContent>
@@ -59,11 +71,17 @@ const LangCard = ({ title, options }: ILangCard) => {
           {options.map((lang, i) => (
             <FormControlLabel
               key={i}
-              control={<Checkbox color="secondary" defaultChecked />}
+              control={
+                <Checkbox
+                  color="secondary"
+                  checked={newUser.stack[lang]}
+                  onChange={() => handleChange(lang, newUser.stack[lang])}
+                />
+              }
               label={lang}
               sx={{
                 span: {
-                  color: 'white ',
+                  color: '#fff',
                 },
               }}
             />
@@ -75,16 +93,19 @@ const LangCard = ({ title, options }: ILangCard) => {
 };
 
 const Join = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
   const [value, setValue] = useState(null);
   const [newUser, setNewUser] = useState<IFirebaseUser>({
     name: '',
     email: '',
     photo: '',
     count: 0,
-    paths: {
-      fe: [],
-      be: [],
+    stack: {
+      JS: false,
+      React: false,
+      Vue: false,
+      Angular: false,
+      Node: false,
     },
     notificationFrequency: 'daily',
     milestones: {
@@ -101,8 +122,7 @@ const Join = () => {
 
   const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
-  const FElanguages = ['HTML & CSS', 'JS', 'React', 'Vue', 'Angular'];
-  const BElanguages = ['JS', 'Node/Express', 'Python', 'Django', 'Flask'];
+  const languages = ['JS', 'React', 'Vue', 'Angular', 'Node'];
 
   // const createNewUser = async () => {
   //   try {
@@ -160,10 +180,7 @@ const Join = () => {
           <Box sx={classes.step2}>
             <Grid container spacing={3} justifyContent="center">
               <Grid item>
-                <LangCard title="Frontend" options={FElanguages} />
-              </Grid>
-              <Grid item>
-                <LangCard title="Backend" options={BElanguages} />
+                <LangCard title="Teck Stack" options={languages} newUser={newUser} setNewUser={setNewUser} />
               </Grid>
             </Grid>
 
