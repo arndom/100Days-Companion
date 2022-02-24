@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { fetchTopLanguages } from './fetchTopLanguages';
 import { sendMail } from './emailNotifications';
-import { fetchCommitCount } from './fetchCommitCount';
+import { fetchCommitDetails } from './fetchCommitDetails';
 
 // // // Start writing Firebase Functions
 // // // https://firebase.google.com/docs/functions/typescript
@@ -20,7 +20,7 @@ export const getCommitCount = functions.https.onRequest(async (request, response
   const user = request.query.user;
   const from = request.query.from;
 
-  const getCommits = await fetchCommitCount({
+  const getCommits = await fetchCommitDetails({
     user: `${user}`,
     from: `${from}`,
   });
