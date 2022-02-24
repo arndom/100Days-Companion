@@ -13,18 +13,20 @@ import {
   TextField,
   Grid,
   FormControlLabel,
+  CircularProgress,
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { useStyles } from './useStyles';
 import { GithubAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth';
-// import { getFirestore, collection, addDoc, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { auth } from '../../utils/firebaseConfig';
+import { useNavigate } from 'react-router';
 
 const steps = ['Connect Github', 'Select Path', 'Set Date '];
 const classes = useStyles;
 
-const GithubButton = () => {
+const GithubButton = ({ loading }: { loading: boolean }) => {
   const provider = new GithubAuthProvider();
 
   const authenticate = () => {
@@ -33,12 +35,18 @@ const GithubButton = () => {
 
   return (
     <Button onClick={authenticate} variant="contained" sx={classes.rainbowbtn}>
-      <Typography mr={2}>Connect Github</Typography>
-      <img
-        src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
-        alt="GitHub"
-        style={{ width: '25px' }}
-      />
+      {loading ? (
+        <CircularProgress sx={{ color: '#fff' }} />
+      ) : (
+        <>
+          <Typography mr={2}>Connect Github</Typography>
+          <img
+            src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
+            alt="GitHub"
+            style={{ width: '25px' }}
+          />
+        </>
+      )}
     </Button>
   );
 };
@@ -93,8 +101,8 @@ const LangCard = ({ title, options, newUser, setNewUser }: ILangCard) => {
 };
 
 const Join = () => {
-  const [activeStep, setActiveStep] = useState(1);
-  const [value, setValue] = useState(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const [newUser, setNewUser] = useState<IFirebaseUser>({
     name: '',
     email: '',
@@ -117,26 +125,32 @@ const Join = () => {
       '90days': false,
       '100days': false,
     },
-    startDate: '',
+    startDate: new Date(),
   });
 
   const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
   const languages = ['JS', 'React', 'Vue', 'Angular', 'Node'];
 
-  // const createNewUser = async () => {
-  //   try {
-  //     const db = getFirestore();
-  //     await addDoc(collection(db, 'users'), { newUser });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const navigate = useNavigate();
+
+  const createNewUser = async () => {
+    try {
+      setLoading(true);
+      const db = getFirestore();
+      await addDoc(collection(db, 'users'), { ...newUser });
+      setLoading(false);
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
         if (result) {
+          setLoading(true);
           const user = result.user;
 
           setNewUser({
@@ -146,13 +160,15 @@ const Join = () => {
             photo: user.photoURL,
           });
 
+          setLoading(false);
           handleNext();
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [newUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Box sx={classes.root}>
@@ -174,7 +190,7 @@ const Join = () => {
       </Box>
 
       <Box sx={classes.content}>
-        {activeStep === 0 && <GithubButton />}
+        {activeStep === 0 && <GithubButton loading={loading} />}
 
         {activeStep === 1 && (
           <Box sx={classes.step2}>
@@ -197,16 +213,20 @@ const Join = () => {
                 Choose Start Date
               </Typography>
               <DatePicker
-                value={value}
+                value={newUser.startDate}
                 onChange={(newValue) => {
-                  setValue(newValue);
+                  setNewUser({ ...newUser, startDate: newValue });
                 }}
                 renderInput={(params) => <TextField sx={classes.datePickerTextfield} color="secondary" {...params} />}
               />
             </LocalizationProvider>
 
-            <Button variant="contained" sx={{ background: 'linear-gradient(to right, #F26E3F, #9020fb)' }}>
-              Done
+            <Button
+              onClick={createNewUser}
+              variant="contained"
+              sx={{ background: 'linear-gradient(to right, #F26E3F, #9020fb)' }}
+            >
+              {loading ? <CircularProgress sx={{ color: '#fff' }} /> : 'Done'}
             </Button>
           </Box>
         )}

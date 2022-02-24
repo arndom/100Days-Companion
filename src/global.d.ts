@@ -24,5 +24,5 @@ interface IFirebaseUser {
   milestones: IMilestones;
   notificationFrequency: string;
   stack: IStack;
-  startDate: string;
+  startDate: Date | null;
 }
