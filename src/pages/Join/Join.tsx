@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -15,19 +16,23 @@ import {
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import React, { useState } from 'react';
 import { useStyles } from './useStyles';
+import { GithubAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth';
+// import { getFirestore, collection, addDoc, doc, getDoc } from 'firebase/firestore';
+import { auth } from '../../utils/firebaseConfig';
 
 const steps = ['Connect Github', 'Select Path', 'Set Date '];
 const classes = useStyles;
 
-interface IButton {
-  onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
-}
+const GithubButton = () => {
+  const provider = new GithubAuthProvider();
 
-const GithubButton = ({ onClick }: IButton) => {
+  const authenticate = () => {
+    signInWithRedirect(auth, provider);
+  };
+
   return (
-    <Button onClick={onClick} variant="contained" sx={classes.rainbowbtn}>
+    <Button onClick={authenticate} variant="contained" sx={classes.rainbowbtn}>
       <Typography mr={2}>Connect Github</Typography>
       <img
         src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
@@ -71,13 +76,63 @@ const LangCard = ({ title, options }: ILangCard) => {
 
 const Join = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [value, setValue] = useState(null);
+  const [newUser, setNewUser] = useState<IFirebaseUser>({
+    name: '',
+    email: '',
+    photo: '',
+    count: 0,
+    paths: {
+      fe: [],
+      be: [],
+    },
+    notificationFrequency: 'daily',
+    milestones: {
+      '7days': false,
+      '14days': false,
+      '21days': false,
+      '30days': false,
+      '60days': false,
+      '90days': false,
+      '100days': false,
+    },
+    startDate: '',
+  });
 
   const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
   const FElanguages = ['HTML & CSS', 'JS', 'React', 'Vue', 'Angular'];
   const BElanguages = ['JS', 'Node/Express', 'Python', 'Django', 'Flask'];
 
-  const [value, setValue] = useState(null);
+  // const createNewUser = async () => {
+  //   try {
+  //     const db = getFirestore();
+  //     await addDoc(collection(db, 'users'), { newUser });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          const user = result.user;
+
+          setNewUser({
+            ...newUser,
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL,
+          });
+
+          handleNext();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [newUser]);
 
   return (
     <Box sx={classes.root}>
@@ -99,7 +154,7 @@ const Join = () => {
       </Box>
 
       <Box sx={classes.content}>
-        {activeStep === 0 && <GithubButton onClick={handleNext} />}
+        {activeStep === 0 && <GithubButton />}
 
         {activeStep === 1 && (
           <Box sx={classes.step2}>

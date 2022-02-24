@@ -2,6 +2,7 @@ import { Button, Grid, IconButton, Typography, Box } from '@mui/material';
 import { AnimatedSVG } from '../../assets/svgs/animatedSVG';
 import logo from '../../assets/images/logo.png';
 import { useStyles } from './useStyles';
+import { Link } from 'react-router-dom';
 
 const Landing = () => {
   const classes = useStyles();
@@ -27,7 +28,7 @@ const Landing = () => {
           <Typography variant="h1" className={classes.heading}>
             <span style={{ color: '#9020fb' }}>100 </span>Day Companion
           </Typography>
-          <Button variant="contained" className={classes.btn}>
+          <Button component={Link} to="/join" variant="contained" className={classes.btn}>
             Start journey
           </Button>
         </Grid>
