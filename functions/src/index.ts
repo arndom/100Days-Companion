@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { fetchTopLanguages } from './fetchTopLanguages';
 import { sendMail } from './emailNotifications';
-import { fetchCommitDetails } from './fetchCommitDetails';
+import { fetchContributionsDetails } from './fetchContributionsDetails';
 
 // // // Start writing Firebase Functions
 // // // https://firebase.google.com/docs/functions/typescript
@@ -14,13 +14,13 @@ export const getTopLanguages = functions.https.onRequest(async (request, respons
   response.send(getLanguage);
 });
 
-export const getCommitCount = functions.https.onRequest(async (request, response) => {
+export const getContributionDetails = functions.https.onRequest(async (request, response) => {
   functions.logger.info('Fetching Contributions...', { structuredData: true });
 
   const user = request.query.user;
   const from = request.query.from;
 
-  const getCommits = await fetchCommitDetails({
+  const getCommits = await fetchContributionsDetails({
     user: `${user}`,
     from: `${from}`,
   });

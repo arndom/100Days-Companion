@@ -44,7 +44,7 @@ const GITHUB_SECRET = process.env.GH_SECRET;
 
 console.log(new Date());
 
-export const fetchCommitDetails = async ({ user, from }: ICommit) => {
+export const fetchContributionsDetails = async ({ user, from }: ICommit) => {
   const today = new Date();
 
   const fetcher = () => {
@@ -93,22 +93,22 @@ export const fetchCommitDetails = async ({ user, from }: ICommit) => {
   const _contributions = totalContributionsByWeek.map((week) => week.contributionDays);
   const contributions = _contributions.flat();
 
-  const _count = totalContributionsByWeek.map((week) => week.contributionDays.map((day) => day.contributionCount));
+  const _streak = totalContributionsByWeek.map((week) => week.contributionDays.map((day) => day.contributionCount));
 
-  const _array = _count.flat();
+  const _array = _streak.flat();
   const array = _array.slice(0, -1);
-  let count = 0;
+  let streak = 0;
 
   array.forEach((val) => {
-    if (val > 0) ++count;
-    if (val === 0) count = 0;
+    if (val > 0) ++streak;
+    if (val === 0) streak = 0;
   });
 
-  if (totalContributions === 0) count = 0;
+  if (totalContributions === 0) streak = 0;
 
   return {
     totalContributions: totalContributions,
     contributionFrequency: contributions,
-    count: count,
+    streak: streak,
   };
 };
