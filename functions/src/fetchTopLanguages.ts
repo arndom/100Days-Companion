@@ -1,5 +1,5 @@
-import axios from 'axios';
 import 'dotenv/config';
+import { request } from './utils/request';
 
 interface ILedgenode {
   name: string;
@@ -39,15 +39,6 @@ interface ILanuageResponse {
 interface ILGithubResponse {
   data: ILanuageResponse;
 }
-
-const request = (data: any, headers: any) => {
-  return axios({
-    url: 'https://api.github.com/graphql',
-    method: 'post',
-    headers,
-    data,
-  });
-};
 
 const GITHUB_SECRET = process.env.GH_SECRET;
 
@@ -89,7 +80,7 @@ export const fetchTopLanguages = async (user: string) => {
     console.error(res.data.errors);
   }
 
-  if (res.data.data.user === null) return { error: 'username nonexistent' };
+  if (res.data.data.user === null) return { error: 'username non-existent' };
 
   let repoNodes: any = res.data.data.user.repositories.nodes;
 
