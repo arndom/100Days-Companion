@@ -1,9 +1,7 @@
 'use strict';
 import * as nodemailer from 'nodemailer';
+import { db } from './utils/firebaseConfig';
 // import * as cron from 'node-cron';
-import * as admin from 'firebase-admin';
-
-admin.initializeApp();
 
 interface Transport {
   host: string;
@@ -32,11 +30,7 @@ const transport: Transport = {
 const transporter = nodemailer.createTransport(transport);
 
 const getUsers = async (notificationFrequency: string) => {
-  const users = await admin
-    .firestore()
-    .collection('users')
-    .where('notification_frequency', '==', notificationFrequency)
-    .get();
+  const users = await db.collection('users').where('notificationFrequency', '==', notificationFrequency).get();
   const usersArray = users.docs.map((doc) => {
     return doc.data();
   });
@@ -58,11 +52,12 @@ export const sendMail = async (notificationFrequency: string) => {
         if (error) {
           console.log(error);
         } else {
-          console.log('Email sent: ' + info.response);
+          console.log(`Email sent to ${user.email}: ` + info.response);
         }
       });
     });
+    return { Success: 200 };
   } catch (error) {
-    return error;
+    return { Failure: error };
   }
 };
