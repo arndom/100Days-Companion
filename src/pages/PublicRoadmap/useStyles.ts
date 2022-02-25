@@ -77,14 +77,18 @@ export const useStyles = {
   },
 
   search: {
-    input: { color: 'white' },
-    label: { color: 'white', textAlign: 'right' },
+    input: { color: '#fff' },
+    label: { color: '#fff', textAlign: 'right' },
     marginTop: '2em',
     marginBottom: '2em',
 
-    '& .MuiOutlinedInput-input': {
+    '& .MuiOutlinedInput-root': {
       background: '#292950',
       borderRadius: '10px',
+    },
+
+    '& .MuiSvgIcon-root': {
+      color: '#fff',
     },
   },
 
@@ -123,10 +127,12 @@ export const useStyles = {
   title: {
     marginTop: '2em',
     marginBottom: '2em',
-    input: { color: 'white' },
+    input: { color: '#fff' },
   },
   description: {
-    input: { color: 'white' },
+    '& .MuiInput-root': {
+      color: '#fff',
+    },
   },
   add: {
     marginTop: '3em',

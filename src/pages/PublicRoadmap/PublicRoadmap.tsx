@@ -16,6 +16,7 @@ import {
   Modal,
   Snackbar,
   Alert,
+  Autocomplete,
 } from '@mui/material';
 import { KeyboardArrowUp, Save } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -57,15 +58,20 @@ const RoadmapStatusCard = ({ status, color, items }: IRoadmapStatusCard) => {
   const handleClose = () => setOpen(false);
   const [item, setItem] = useState({ title: '', description: '', votes: 0 });
 
+  // Alert
+  const [alert, setAlert] = useState({ isTrue: false, message: '' });
+  const handleAlertClose = () => setAlert({ ...alert, isTrue: false });
+
   const handleVote = async (id: string, votes: number) => {
     if (isAuthenticated) {
       try {
         await voteFeatureRequest(id, votes);
+        setAlert({ isTrue: true, message: 'Voting was successful' });
       } catch (error) {
-        console.log(error);
+        setAlert({ isTrue: true, message: 'Voting was unsuccessful' });
       }
     } else {
-      console.log('Not authenticated');
+      setAlert({ isTrue: true, message: 'Please sign-in before voting!' });
     }
   };
 
@@ -132,12 +138,18 @@ const RoadmapStatusCard = ({ status, color, items }: IRoadmapStatusCard) => {
           ))}
         </List>
       </CardContent>
+      <Snackbar open={alert.isTrue} autoHideDuration={2000} onClose={handleAlertClose}>
+        <Alert variant="filled" severity="info">
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </Card>
   );
 };
 
 const PublicRoadmap = () => {
   const [roadmaps, setRoadmaps] = useState([]);
+  const [featureRequestCount, setFeatureRequestCount] = useState(0);
 
   // Alert
   const [alert, setAlert] = useState({ isTrue: false, message: '' });
@@ -178,6 +190,7 @@ const PublicRoadmap = () => {
     (async () => {
       const roadmaps = await getFeatureRequests();
       setRoadmaps(convertRoadmapsSnapshotToMap(roadmaps));
+      setFeatureRequestCount(roadmaps.size);
     })();
   }, []);
 
@@ -194,7 +207,12 @@ const PublicRoadmap = () => {
         </Grid>
       </Grid>
       <Grid container item direction="row" justifyContent="flex-end">
-        <TextField sx={classes.search} placeholder="Search..."></TextField>
+        <Autocomplete
+          sx={{ width: 300, ...classes.search }}
+          options={roadmaps}
+          getOptionLabel={(option: IFeatureRequest) => option.title}
+          renderInput={(params) => <TextField {...params} placeholder="Search..."></TextField>}
+        />
       </Grid>
       <Grid container item direction="row" justifyContent="flex-start">
         <Card sx={classes.feature}>
@@ -205,7 +223,7 @@ const PublicRoadmap = () => {
               </Grid>
               <Grid item>
                 <Typography>
-                  <Box component="span">89</Box>
+                  <Box component="span">{featureRequestCount}</Box>
                 </Typography>
               </Grid>
             </Grid>
@@ -222,26 +240,34 @@ const PublicRoadmap = () => {
               New Suggestion
             </Typography>
             <form onSubmit={handleSubmit}>
-              <FormControl>
-                <TextField
-                  name="title"
-                  required
-                  sx={classes.title}
-                  placeholder="Title"
-                  variant="standard"
-                  onChange={handleChange}
-                />
-              </FormControl>
-              <FormControl>
-                <TextField
-                  name="description"
-                  required
-                  placeholder="Description"
-                  sx={classes.description}
-                  variant="standard"
-                  onChange={handleChange}
-                />
-              </FormControl>
+              <Grid container>
+                <Grid container item>
+                  <FormControl>
+                    <TextField
+                      name="title"
+                      required
+                      sx={classes.title}
+                      placeholder="Title"
+                      variant="standard"
+                      onChange={handleChange}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid container item>
+                  <FormControl>
+                    <TextField
+                      name="description"
+                      multiline={true}
+                      rows={5}
+                      required
+                      placeholder="Description"
+                      sx={classes.description}
+                      variant="standard"
+                      onChange={handleChange}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
               <LoadingButton
                 sx={classes.add}
                 color="secondary"
@@ -279,7 +305,7 @@ const PublicRoadmap = () => {
           <RoadmapStatusCard status="live" color="#3E3418" items={filterRoadmapsByStatus(roadmaps, 'live')} />
         </Grid>
       </Grid>
-      <Snackbar open={alert.isTrue} autoHideDuration={3000} onClose={handleAlertClose}>
+      <Snackbar open={alert.isTrue} autoHideDuration={2000} onClose={handleAlertClose}>
         <Alert variant="filled" severity="info">
           {alert.message}
         </Alert>

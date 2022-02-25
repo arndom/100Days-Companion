@@ -2,9 +2,10 @@ import { db } from './firebaseConfig';
 import { collection, doc, getDocs, addDoc, updateDoc } from 'firebase/firestore';
 
 export const addFeatureRequest = async (featureRequest: IFeatureRequest) => {
+  const { title, description, type, status, votes } = featureRequest;
   const featureRequestRef = collection(db, 'roadmap');
 
-  const newFeatureRequest = await addDoc(featureRequestRef, { ...featureRequest, status: 'suggestions' });
+  const newFeatureRequest = await addDoc(featureRequestRef, { title, description, type, status, votes });
 
   return newFeatureRequest;
 };
