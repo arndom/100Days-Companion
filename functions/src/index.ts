@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { fetchTopLanguages } from './fetchTopLanguages';
 import { sendMail } from './emailNotifications';
-import { fetchContributionsDetails } from './fetchContributionsDetails';
+import { fetchContributionsDetails } from './fetchContributions';
 
 // // // Start writing Firebase Functions
 // // // https://firebase.google.com/docs/functions/typescript
@@ -36,17 +36,23 @@ export const sendEmails = functions.https.onRequest(async (request, response) =>
 });
 
 // Send daily mails by 1:00 AM
-export const dailyMails = functions.pubsub.schedule('0 1 * * *').onRun(async () => {
-  functions.logger.info('Sending daily mails...', { structuredData: true });
+export const dailyMails = functions.pubsub
+  .schedule('0 1 * * *')
+  .timeZone('Etc/GMT')
+  .onRun(async () => {
+    functions.logger.info('Sending daily mails...', { structuredData: true });
 
-  const sendMails = await sendMail('daily');
-  return sendMails;
-});
+    const sendMails = await sendMail('daily');
+    return sendMails;
+  });
 
 // Send weekly mails every Sunday by 1:00 AM
-export const weeklyMails = functions.pubsub.schedule('0 1 * * Sun').onRun(async () => {
-  functions.logger.info('Sending weekly mails...', { structuredData: true });
+export const weeklyMails = functions.pubsub
+  .schedule('0 1 * * Sun')
+  .timeZone('Etc/GMT')
+  .onRun(async () => {
+    functions.logger.info('Sending weekly mails...', { structuredData: true });
 
-  const sendMails = await sendMail('weekly');
-  return sendMails;
-});
+    const sendMails = await sendMail('weekly');
+    return sendMails;
+  });
