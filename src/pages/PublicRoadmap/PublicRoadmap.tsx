@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   Card,
@@ -9,11 +10,15 @@ import {
   ListItemText,
   Divider,
   IconButton,
+  FormControl,
   Button,
   TextField,
+  Modal,
 } from '@mui/material';
-import { KeyboardArrowUp } from '@mui/icons-material';
+import { KeyboardArrowUp, Save } from '@mui/icons-material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { useStyles } from './useStyles';
+import { addFeatureRequest } from '../../utils/firebaseUtils';
 
 const classes = useStyles;
 
@@ -71,6 +76,30 @@ const PublicRoadmap = () => {
   const planned = [{ title: 'Courses', type: 'Feature request', votes: 10 }];
   const inProgress = [{ title: 'Courses', type: 'Feature request', votes: 10 }];
   const live = [{ title: 'Courses', type: 'Feature request', votes: 10 }];
+  // Modal
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  // Form
+  const [featureRequest, setFeatureRequest] = useState({ title: '', description: '' });
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFeatureRequest({ ...featureRequest, [name]: value });
+  };
+  // Loading Button
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    setLoading(true);
+    const { title, description } = featureRequest;
+    if (title === '' && description === '') {
+      return;
+    }
+    event.preventDefault();
+    addFeatureRequest({ ...featureRequest, votes: 0, type: 'Feature request' });
+    setLoading(false);
+    handleClose();
+  };
 
   return (
     <Grid sx={classes.root} container>
@@ -102,6 +131,51 @@ const PublicRoadmap = () => {
             </Grid>
           </CardContent>
         </Card>
+      </Grid>
+      <Grid sx={classes.suggest} container item>
+        <Button onClick={handleOpen} variant="outlined">
+          Suggest a Feature
+        </Button>
+        <Modal open={open} onClose={handleClose}>
+          <Box sx={classes.modal}>
+            <Typography variant="h6" component="h2">
+              New Suggestion
+            </Typography>
+            <form onSubmit={handleSubmit}>
+              <FormControl>
+                <TextField
+                  name="title"
+                  required
+                  sx={classes.title}
+                  placeholder="Title"
+                  variant="standard"
+                  onChange={handleChange}
+                />
+              </FormControl>
+              <FormControl>
+                <TextField
+                  name="description"
+                  required
+                  placeholder="Description"
+                  sx={classes.description}
+                  variant="standard"
+                  onChange={handleChange}
+                />
+              </FormControl>
+              <LoadingButton
+                sx={classes.add}
+                color="secondary"
+                type="submit"
+                loading={loading}
+                loadingPosition="start"
+                startIcon={<Save />}
+                variant="contained"
+              >
+                Add
+              </LoadingButton>
+            </form>
+          </Box>
+        </Modal>
       </Grid>
       <Grid container item spacing={4}>
         <Grid item xs={12} sm={12} md={6} lg={4}>

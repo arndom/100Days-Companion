@@ -93,4 +93,33 @@ export const useStyles = {
       padding: '0.45em 0.6em',
     },
   },
+
+  suggest: {
+    marginBottom: '20px',
+  },
+
+  modal: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: '#292950',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  },
+
+  title: {
+    marginTop: '2em',
+    marginBottom: '2em',
+    input: { color: 'white' },
+  },
+  description: {
+    input: { color: 'white' },
+  },
+  add: {
+    marginTop: '3em',
+    borderRadius: 0,
+  },
 };
