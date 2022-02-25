@@ -1,5 +1,5 @@
 import { db } from './firebaseConfig';
-import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { collection, doc, updateDoc, arrayUnion, getDocs } from 'firebase/firestore';
 
 export const addFeatureRequest = async (featureRequest: IFeatureRequest) => {
   const { title, description, type, votes } = featureRequest;
@@ -11,4 +11,27 @@ export const addFeatureRequest = async (featureRequest: IFeatureRequest) => {
   });
 
   return newFeatureRequest;
+};
+
+export const getRoadmaps = async () => {
+  const featureRef = collection(db, 'roadmap');
+  const snapshot = await getDocs(featureRef);
+  return snapshot;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const convertRoadmapsSnapshotToMap = (roadmaps: any) => {
+  const transformedRoadmaps = roadmaps.docs?.map(
+    (doc: { data: () => { type: string; color: string; items: IFeatureRequest } }) => {
+      const { type, color, items } = doc.data();
+
+      return {
+        type,
+        color,
+        items,
+      };
+    },
+  );
+
+  return transformedRoadmaps;
 };

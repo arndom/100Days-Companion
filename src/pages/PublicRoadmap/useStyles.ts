@@ -27,9 +27,19 @@ export const useStyles = {
     '& .MuiList-root': {
       width: '100%',
       maxWidth: 360,
+      overflow: 'auto',
+      maxHeight: 300,
 
       '&>.MuiListItem-root': {
         paddingLeft: 0,
+      },
+
+      '& .MuiListItemText-primary': {
+        fontSize: '0.9rem',
+      },
+
+      '& .MuiIconButton-root': {
+        textAlign: 'start',
       },
     },
 

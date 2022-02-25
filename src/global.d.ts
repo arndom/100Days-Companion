@@ -25,3 +25,9 @@ interface IFeatureRequest {
   type: string;
   votes: number;
 }
+
+interface IFeatureRequestDocument {
+  type: string;
+  color: string;
+  items: IFeatureRequest[];
+}
