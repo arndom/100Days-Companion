@@ -20,14 +20,10 @@ interface IFirebaseUser {
 }
 
 interface IFeatureRequest {
+  id: string;
   title: string;
   description: string;
   type: string;
   votes: number;
-}
-
-interface IFeatureRequestDocument {
-  type: string;
-  color: string;
-  items: IFeatureRequest[];
+  status: string;
 }

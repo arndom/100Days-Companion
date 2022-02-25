@@ -20,31 +20,56 @@ import {
 import { KeyboardArrowUp, Save } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useStyles } from './useStyles';
-import { addFeatureRequest, getRoadmaps, convertRoadmapsSnapshotToMap } from '../../utils/firebaseUtils';
+import {
+  addFeatureRequest,
+  getFeatureRequests,
+  convertRoadmapsSnapshotToMap,
+  filterRoadmapsByStatus,
+  voteFeatureRequest,
+} from '../../utils/firebaseUtils';
 
 const classes = useStyles;
+const isAuthenticated = true;
 
 interface IRoadmapStatusCard {
-  title: string;
+  status: string;
   color: string;
-  options: IFeatureRequest[];
+  items: IFeatureRequest[];
 }
 
-interface IModalItem {
-  item: IFeatureRequest;
+interface IFeatureModalDetails {
+  title: string;
+  description: string;
+  votes: number;
 }
 
-const RoadmapStatusCard = ({ title, color, options }: IRoadmapStatusCard) => {
+interface IFeatureModal {
+  item: IFeatureModalDetails;
+}
+
+const RoadmapStatusCard = ({ status, color, items }: IRoadmapStatusCard) => {
   // Feature Modal
   const [open, setOpen] = useState(false);
-  const handleOpen = (option: IFeatureRequest) => {
-    setItem({ ...option });
+  const handleOpen = (item: IFeatureModalDetails) => {
+    setItem({ ...item });
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
-  const [item, setItem] = useState({ type: '', title: '', description: '', votes: 0 });
+  const [item, setItem] = useState({ title: '', description: '', votes: 0 });
 
-  const CustomModal = ({ item }: IModalItem) => {
+  const handleVote = async (id: string, votes: number) => {
+    if (isAuthenticated) {
+      try {
+        await voteFeatureRequest(id, votes);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log('Not authenticated');
+    }
+  };
+
+  const CustomModal = ({ item }: IFeatureModal) => {
     const { title, description, votes } = item;
     return (
       <Modal open={open} onClose={handleClose}>
@@ -54,7 +79,7 @@ const RoadmapStatusCard = ({ title, color, options }: IRoadmapStatusCard) => {
               <Typography variant="h6" component="h2">
                 {title}
               </Typography>
-              <Typography variant="h6" component="h6">
+              <Typography sx={{ fontSize: '0.8em', marginTop: '1em' }} variant="h6" component="h6">
                 {description}
               </Typography>
             </Grid>
@@ -74,32 +99,32 @@ const RoadmapStatusCard = ({ title, color, options }: IRoadmapStatusCard) => {
       <CardContent>
         <Typography variant="h6">
           <Box component="span" sx={{ background: `${color}` }}>
-            {title.toUpperCase()}
+            {status.toUpperCase()}
           </Box>
         </Typography>
         <List>
           <CustomModal item={item} />
-          {options.map((option, index: number) => (
+          {items.map((item, index: number) => (
             <ListItem
               key={index}
               secondaryAction={
                 <Box>
                   <Grid container>
-                    <IconButton edge="end" aria-label="vote">
+                    <IconButton edge="end" aria-label="vote" onClick={() => handleVote(item.id, item.votes)}>
                       <KeyboardArrowUp sx={{ color: '#9020fb' }} />
                     </IconButton>
                   </Grid>
                   <Grid container sx={{ paddingLeft: '13px' }}>
-                    <Typography>{option.votes}</Typography>
+                    <Typography>{item.votes}</Typography>
                   </Grid>
                 </Box>
               }
             >
               <Divider orientation="vertical" sx={{ borderLeft: `3px solid ${color}` }} />
-              <IconButton onClick={() => handleOpen(option)}>
+              <IconButton onClick={() => handleOpen(item)}>
                 <ListItemText
-                  primary={option.title}
-                  secondary={option.type}
+                  primary={item.title}
+                  secondary={item.type}
                   secondaryTypographyProps={{ marginTop: '2px' }}
                 />
               </IconButton>
@@ -112,7 +137,7 @@ const RoadmapStatusCard = ({ title, color, options }: IRoadmapStatusCard) => {
 };
 
 const PublicRoadmap = () => {
-  const [roadmaps, setRoadmaps] = useState({});
+  const [roadmaps, setRoadmaps] = useState([]);
 
   // Alert
   const [alert, setAlert] = useState({ isTrue: false, message: '' });
@@ -139,7 +164,7 @@ const PublicRoadmap = () => {
       return;
     }
     try {
-      await addFeatureRequest({ ...featureRequest, votes: 0, type: 'Feature request' });
+      await addFeatureRequest({ ...featureRequest, votes: 0, type: 'Feature request', status: 'suggestions', id: '' });
       setAlert({ isTrue: true, message: 'Feature request added successfully!' });
     } catch (error) {
       setAlert({ isTrue: true, message: 'Feature request add was unsuccessful!' });
@@ -151,8 +176,8 @@ const PublicRoadmap = () => {
   // Get roadmaps
   useEffect(() => {
     (async () => {
-      const roadmaps = await getRoadmaps();
-      setRoadmaps(roadmaps);
+      const roadmaps = await getFeatureRequests();
+      setRoadmaps(convertRoadmapsSnapshotToMap(roadmaps));
     })();
   }, []);
 
@@ -233,19 +258,32 @@ const PublicRoadmap = () => {
         </Modal>
       </Grid>
       <Grid container item spacing={4}>
-        {convertRoadmapsSnapshotToMap(roadmaps)?.map((roadmap: IFeatureRequestDocument, index: number) => (
-          <Grid key={index} item xs={12} sm={12} md={6} lg={4}>
-            <RoadmapStatusCard title={roadmap.type} color={roadmap.color} options={roadmap.items} />
-          </Grid>
-        ))}
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <RoadmapStatusCard
+            status="suggestions"
+            color="#9020fb"
+            items={filterRoadmapsByStatus(roadmaps, 'suggestions')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <RoadmapStatusCard status="planned" color="#1B3C40" items={filterRoadmapsByStatus(roadmaps, 'planned')} />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <RoadmapStatusCard
+            status="in progress"
+            color="#223E2B"
+            items={filterRoadmapsByStatus(roadmaps, 'in_progress')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <RoadmapStatusCard status="live" color="#3E3418" items={filterRoadmapsByStatus(roadmaps, 'live')} />
+        </Grid>
       </Grid>
-      {alert.isTrue && (
-        <Snackbar open={alert.isTrue} autoHideDuration={3000} onClose={handleAlertClose}>
-          <Alert variant="filled" severity="info">
-            {alert.message}
-          </Alert>
-        </Snackbar>
-      )}
+      <Snackbar open={alert.isTrue} autoHideDuration={3000} onClose={handleAlertClose}>
+        <Alert variant="filled" severity="info">
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };
