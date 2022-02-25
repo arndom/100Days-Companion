@@ -1,3 +1,4 @@
+import { db } from './utils/firebaseConfig';
 import { request } from './utils/request';
 
 interface ICommit {
@@ -141,6 +142,53 @@ const fetchUserContributionCount = async ({ user, from }: ICommit) => {
   return streak;
 };
 
-export const updateUserCount = () => {
-  console.log(fetchUserContributionCount);
+const getUsersDetails = async () => {
+  const fetchUsers = await db.collection('users').get();
+
+  const _users = fetchUsers.docs.map((doc) => {
+    return { id: doc.id, data: doc.data() };
+  });
+
+  const users = _users.map((user) => {
+    return {
+      id: user.id,
+      user: user.data.name as string,
+      from: user.data.startDate as string,
+    };
+  });
+
+  return users;
+};
+
+export const updateCount = async () => {
+  try {
+    const _users = await getUsersDetails();
+
+    const users = await Promise.all(
+      _users.map(async (user) => {
+        const res = await fetchUserContributionCount({ user: user.user, from: user.from });
+
+        const _user = {
+          id: user.id,
+          user: user.user,
+          from: user.from,
+          count: res,
+        };
+
+        db.collection('users').doc(user.id).set(
+          {
+            count: res,
+          },
+          { merge: true },
+        );
+
+        console.log(_user);
+        return _user;
+      }),
+    );
+
+    return { sucess: 200, updatedData: users };
+  } catch (error) {
+    return { Failure: error };
+  }
 };
