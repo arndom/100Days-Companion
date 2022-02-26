@@ -1,5 +1,5 @@
 import { db } from './firebaseConfig';
-import { collection, doc, getDocs, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 
 export const addFeatureRequest = async (featureRequest: IFeatureRequest) => {
   const { title, description, type, status, votes, timestamp } = featureRequest;
@@ -12,8 +12,8 @@ export const addFeatureRequest = async (featureRequest: IFeatureRequest) => {
 
 export const getFeatureRequests = async () => {
   const featureRef = collection(db, 'roadmap');
-  const snapshot = await getDocs(featureRef);
-  return snapshot;
+  // const snapshot = await getDocs(featureRef);
+  return featureRef;
 };
 
 export const voteFeatureRequest = async (id: string, votes: number) => {
@@ -44,3 +44,5 @@ export const convertRoadmapsSnapshotToMap = (roadmaps: any) => {
 
   return transformedRoadmaps;
 };
+
+export { onSnapshot };

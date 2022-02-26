@@ -27,8 +27,8 @@ import {
   convertRoadmapsSnapshotToMap,
   filterRoadmapsByStatus,
   voteFeatureRequest,
+  onSnapshot,
 } from '../../utils/firebaseUtils';
-
 const classes = useStyles;
 const isAuthenticated = true;
 
@@ -197,8 +197,13 @@ const PublicRoadmap = () => {
   useEffect(() => {
     (async () => {
       const roadmaps = await getFeatureRequests();
-      setRoadmaps(convertRoadmapsSnapshotToMap(roadmaps));
-      setFeatureRequestCount(roadmaps.size);
+      const unsubscribe = onSnapshot(roadmaps, (snapshot) => {
+        setRoadmaps(convertRoadmapsSnapshotToMap(snapshot));
+        setFeatureRequestCount(snapshot.size);
+      });
+      return function cleanup() {
+        unsubscribe();
+      };
     })();
   }, []);
 
