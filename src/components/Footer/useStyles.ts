@@ -2,14 +2,14 @@ import { theme } from '../../themes/theme';
 
 export const useStyles = {
   container: {
-    padding: theme.spacing(2, 12),
+    padding: theme.spacing(0, 12, 2),
 
     [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(2, 6),
+      padding: theme.spacing(0, 6, 2),
     },
 
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2, 4),
+      padding: theme.spacing(0, 4, 2),
     },
   },
 
