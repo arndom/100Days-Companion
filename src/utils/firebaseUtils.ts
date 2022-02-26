@@ -2,10 +2,10 @@ import { db } from './firebaseConfig';
 import { collection, doc, getDocs, addDoc, updateDoc } from 'firebase/firestore';
 
 export const addFeatureRequest = async (featureRequest: IFeatureRequest) => {
-  const { title, description, type, status, votes } = featureRequest;
+  const { title, description, type, status, votes, timestamp } = featureRequest;
   const featureRequestRef = collection(db, 'roadmap');
 
-  const newFeatureRequest = await addDoc(featureRequestRef, { title, description, type, status, votes });
+  const newFeatureRequest = await addDoc(featureRequestRef, { title, description, type, status, votes, timestamp });
 
   return newFeatureRequest;
 };
@@ -25,7 +25,10 @@ export const voteFeatureRequest = async (id: string, votes: number) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const filterRoadmapsByStatus = (roadmaps: any, status: string) => {
   const filteredRoadmap = roadmaps.filter((roadmap: IFeatureRequest) => roadmap.status === status);
-  return filteredRoadmap;
+  const sortedRoadmap = filteredRoadmap.sort((a: IFeatureRequest, b: IFeatureRequest) => {
+    return b.timestamp - a.timestamp;
+  });
+  return sortedRoadmap;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -26,4 +26,5 @@ interface IFeatureRequest {
   type: string;
   votes: number;
   status: string;
+  timestamp: number;
 }

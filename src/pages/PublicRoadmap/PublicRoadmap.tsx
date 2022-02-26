@@ -176,7 +176,15 @@ const PublicRoadmap = () => {
       return;
     }
     try {
-      await addFeatureRequest({ ...featureRequest, votes: 0, type: 'Feature request', status: 'suggestions', id: '' });
+      const timestamp = Date.now();
+      await addFeatureRequest({
+        ...featureRequest,
+        votes: 0,
+        type: 'Feature request',
+        status: 'suggestions',
+        id: '',
+        timestamp: timestamp,
+      });
       setAlert({ isTrue: true, message: 'Feature request added successfully!' });
     } catch (error) {
       setAlert({ isTrue: true, message: 'Feature request add was unsuccessful!' });
