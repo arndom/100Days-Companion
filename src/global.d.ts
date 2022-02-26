@@ -18,3 +18,13 @@ interface IFirebaseUser {
   selected_paths: string[];
   start_date: string;
 }
+
+interface IFeatureRequest {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  votes: number;
+  status: string;
+  timestamp: timestamp;
+}

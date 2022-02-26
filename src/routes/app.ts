@@ -1,3 +1,4 @@
+import React from 'react';
 import Home from '../pages/Home/Home';
 import Milestones from '../pages/Home/Milestones/Milestones';
 import Settings from '../pages/Home/Settings/Settings';
