@@ -28,6 +28,7 @@ import {
   filterRoadmapsByStatus,
   voteFeatureRequest,
   onSnapshot,
+  Timestamp,
 } from '../../utils/firebaseUtils';
 const classes = useStyles;
 const isAuthenticated = true;
@@ -176,14 +177,13 @@ const PublicRoadmap = () => {
       return;
     }
     try {
-      const timestamp = Date.now();
       await addFeatureRequest({
         ...featureRequest,
         votes: 0,
         type: 'Feature request',
         status: 'suggestions',
         id: '',
-        timestamp: timestamp,
+        timestamp: Timestamp.now(),
       });
       setAlert({ isTrue: true, message: 'Feature request added successfully!' });
     } catch (error) {

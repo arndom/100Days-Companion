@@ -1,10 +1,9 @@
 import { db } from './firebaseConfig';
-import { collection, doc, addDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { collection, doc, addDoc, updateDoc, onSnapshot, Timestamp } from 'firebase/firestore';
 
 export const addFeatureRequest = async (featureRequest: IFeatureRequest) => {
   const { title, description, type, status, votes, timestamp } = featureRequest;
   const featureRequestRef = collection(db, 'roadmap');
-
   const newFeatureRequest = await addDoc(featureRequestRef, { title, description, type, status, votes, timestamp });
 
   return newFeatureRequest;
@@ -26,7 +25,7 @@ export const voteFeatureRequest = async (id: string, votes: number) => {
 export const filterRoadmapsByStatus = (roadmaps: any, status: string) => {
   const filteredRoadmap = roadmaps.filter((roadmap: IFeatureRequest) => roadmap.status === status);
   const sortedRoadmap = filteredRoadmap.sort((a: IFeatureRequest, b: IFeatureRequest) => {
-    return b.timestamp - a.timestamp;
+    return b.votes - a.votes;
   });
   return sortedRoadmap;
 };
@@ -45,4 +44,4 @@ export const convertRoadmapsSnapshotToMap = (roadmaps: any) => {
   return transformedRoadmaps;
 };
 
-export { onSnapshot };
+export { onSnapshot, Timestamp };
