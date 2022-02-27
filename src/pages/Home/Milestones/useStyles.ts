@@ -1,5 +1,3 @@
-import { theme } from '../../../themes/theme';
-
 export const useStyles = {
   milestones: {
     div: {
@@ -14,8 +12,10 @@ export const useStyles = {
     },
 
     img: {
-      width: 100,
-      marginRight: theme.spacing(3),
+      position: 'absolute',
+      width: '250px',
+      filter: 'grayscale(100%) opacity(20%)',
+      // filter: ''
     },
   },
 } as const;
