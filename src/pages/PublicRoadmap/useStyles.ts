@@ -27,9 +27,19 @@ export const useStyles = {
     '& .MuiList-root': {
       width: '100%',
       maxWidth: 360,
+      overflow: 'auto',
+      maxHeight: 300,
 
       '&>.MuiListItem-root': {
         paddingLeft: 0,
+      },
+
+      '& .MuiListItemText-primary': {
+        fontSize: '0.9rem',
+      },
+
+      '& .MuiIconButton-root': {
+        textAlign: 'start',
       },
     },
 
@@ -67,14 +77,18 @@ export const useStyles = {
   },
 
   search: {
-    input: { color: 'white' },
-    label: { color: 'white', textAlign: 'right' },
+    input: { color: '#fff' },
+    label: { color: '#fff', textAlign: 'right' },
     marginTop: '2em',
     marginBottom: '2em',
 
-    '& .MuiOutlinedInput-input': {
+    '& .MuiOutlinedInput-root': {
       background: '#292950',
       borderRadius: '10px',
+    },
+
+    '& .MuiSvgIcon-root': {
+      color: '#fff',
     },
   },
 
@@ -92,5 +106,36 @@ export const useStyles = {
       background: '#f26e3f',
       padding: '0.45em 0.6em',
     },
+  },
+
+  suggest: {
+    marginBottom: '20px',
+  },
+
+  modal: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: '#292950',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  },
+
+  title: {
+    marginTop: '2em',
+    marginBottom: '2em',
+    input: { color: '#fff' },
+  },
+  description: {
+    '& .MuiInput-root': {
+      color: '#fff',
+    },
+  },
+  add: {
+    marginTop: '3em',
+    borderRadius: 0,
   },
 };
