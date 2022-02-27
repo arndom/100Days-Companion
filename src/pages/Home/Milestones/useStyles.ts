@@ -15,7 +15,6 @@ export const useStyles = {
       position: 'absolute',
       width: '250px',
       filter: 'grayscale(100%) opacity(20%)',
-      // filter: ''
     },
   },
 } as const;
