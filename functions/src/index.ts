@@ -2,29 +2,36 @@ import * as functions from 'firebase-functions';
 import { fetchTopLanguages } from './fetchTopLanguages';
 import { sendMail } from './emailNotifications';
 import { fetchContributionsDetails, updateCount } from './fetchContributions';
+import * as cors from 'cors';
 
 // // // Start writing Firebase Functions
 // // // https://firebase.google.com/docs/functions/typescript
 // //
-export const getTopLanguages = functions.https.onRequest(async (request, response) => {
-  functions.logger.info('Getting languages...', { structuredData: true });
 
-  const username = request.query.username;
-  const getLanguage = await fetchTopLanguages(`${username}`);
-  response.send(getLanguage);
+const corsHandler = cors({ origin: true });
+
+export const getTopLanguages = functions.https.onRequest(async (request, response) => {
+  corsHandler(request, response, async () => {
+    functions.logger.info('Getting languages...', { structuredData: true });
+    const username = request.query.username;
+    const getLanguage = await fetchTopLanguages(`${username}`);
+    response.send(getLanguage);
+  });
 });
 
 export const getContributionDetails = functions.https.onRequest(async (request, response) => {
-  functions.logger.info('Fetching Contributions...', { structuredData: true });
+  corsHandler(request, response, async () => {
+    functions.logger.info('Fetching Contributions...', { structuredData: true });
 
-  const user = request.query.user;
-  const from = request.query.from;
+    const user = request.query.user;
+    const from = request.query.from;
 
-  const getCommits = await fetchContributionsDetails({
-    user: `${user}`,
-    from: `${from}`,
+    const getCommits = await fetchContributionsDetails({
+      user: `${user}`,
+      from: `${from}`,
+    });
+    response.send(getCommits);
   });
-  response.send(getCommits);
 });
 
 //update user count daily at 1:00AM daily
