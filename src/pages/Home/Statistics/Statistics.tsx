@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grid, Typography, List, ListItem, ListItemText, Skeleton } from '@mui/material';
+import { Grid, Typography, List, ListItem, ListItemText, Skeleton, CircularProgress, Box } from '@mui/material';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { useStyles } from './useStyles';
 import gem3 from '../../../assets/images/gem3.png';
@@ -67,9 +67,10 @@ const Statistics = (): JSX.Element => {
 
   return (
     <Grid sx={classes.container} container spacing={5}>
-      <Typography variant="h6" ml={7} mt={4}>
-        Your Contribution History
-      </Typography>
+      <Box ml={7} mt={4} sx={classes.contributionTitle}>
+        <Typography variant="h6">Your Contribution History</Typography>
+        {loading && <CircularProgress sx={classes.progress} />}
+      </Box>
       <Chart data={stats} />
 
       <Grid container item justifyContent="flex-start">

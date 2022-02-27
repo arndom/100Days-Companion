@@ -38,4 +38,15 @@ export const useStyles = {
       marginLeft: theme.spacing(2),
     },
   },
+
+  contributionTitle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  progress: {
+    width: '18px !important',
+    height: '18px !important',
+    ml: 2,
+  },
 };
