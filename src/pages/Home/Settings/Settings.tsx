@@ -18,7 +18,7 @@ const Settings = (): JSX.Element => {
   };
 
   return (
-    <Grid container columnSpacing={40} rowSpacing={15} justifyContent="flex-start">
+    <Grid sx={classes.container} container justifyContent="flex-start">
       <Grid item>
         <Typography sx={classes.notifications}>Notifications Frequency</Typography>
         <FormControl sx={classes.frequency}>
