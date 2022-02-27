@@ -19,8 +19,8 @@ import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { useStyles } from './useStyles';
 import { GithubAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth';
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
-import { auth } from '../../utils/firebaseConfig';
+import { getDoc, setDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../../utils/firebaseConfig';
 import { useNavigate } from 'react-router';
 
 const steps = ['Connect Github', 'Select Path', 'Set Date '];
@@ -146,10 +146,10 @@ const Join = () => {
   const createNewUser = async () => {
     try {
       setLoading(true);
-      const db = getFirestore();
-      const user = await getDocs(collection(db, `users/user/${id}`));
-      if (!user) {
-        await addDoc(collection(db, `users/user/${id}`), newUser);
+      const docRef = doc(db, 'users', id);
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        await setDoc(doc(db, `users/${id}`), newUser);
         setLoading(false);
         navigate('/');
       }

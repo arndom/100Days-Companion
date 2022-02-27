@@ -1,8 +1,9 @@
 import { createContext, FunctionComponent, useContext, useEffect, useReducer } from 'react';
 import { Action, initialState, reducer } from './reducer';
 import { useNavigate } from 'react-router';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { getDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../utils/firebaseConfig';
 
 const AuthContext = createContext<[IFirebaseUser, React.Dispatch<Action>]>([initialState, () => null]);
 
@@ -12,30 +13,35 @@ const AppWrapper: FunctionComponent = ({ children }): JSX.Element => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         // User is signed in
-        const db = getFirestore();
-        const querySnapshot = await getDocs(collection(db, `users/user/${user.uid}`));
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const currentUser = {
-            name: data.name,
-            email: data.email,
-            count: data.count,
-            milestones: data.milestones,
-            photo: data.photo,
-            stack: data.stack,
-            notificationFrequency: data.notificationFrequency,
-            startDate: data.startDate,
-          };
-          dispatch({
-            type: 'CHECK_USER',
-            payload: currentUser,
-          });
-          navigate('/');
-        });
+        const id = auth.currentUser?.uid;
+        if (id) {
+          const docRef = doc(db, 'users', id);
+          const query = await getDoc(docRef);
+          const data = query.data();
+
+          if (data) {
+            const currentUser = {
+              name: data.name,
+              email: data.email,
+              count: data.count,
+              milestones: data.milestones,
+              photo: data.photo,
+              stack: data.stack,
+              notificationFrequency: data.notificationFrequency,
+              startDate: data.startDate,
+            };
+
+            dispatch({
+              type: 'CHECK_USER',
+              payload: currentUser,
+            });
+
+            navigate('/');
+          }
+        }
       } else {
         // User is signed out
         navigate('/landing');
