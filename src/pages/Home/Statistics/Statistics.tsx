@@ -52,12 +52,15 @@ const Statistics = (): JSX.Element => {
 
     Promise.all([promise1, promise2]).then(function (values) {
       const res = values;
+
       const stat = res[0].data.contributionFrequency;
+      setStats(stat);
+
       const _lang = res[1].data;
       const lang = Object.fromEntries(Object.entries(_lang).slice(0, 5));
       const langArr = Object.keys(lang);
-      setStats(stat);
       setLanguages(langArr);
+
       setLoading(false);
     });
   }, [statsURL, langsURL]);
