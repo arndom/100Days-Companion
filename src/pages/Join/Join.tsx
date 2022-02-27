@@ -19,18 +19,26 @@ import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { useStyles } from './useStyles';
 import { GithubAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
 import { auth } from '../../utils/firebaseConfig';
 import { useNavigate } from 'react-router';
 
 const steps = ['Connect Github', 'Select Path', 'Set Date '];
 const classes = useStyles;
 
-const GithubButton = ({ loading }: { loading: boolean }) => {
+const GithubButton = ({
+  loading,
+  setLoading,
+}: {
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const provider = new GithubAuthProvider();
 
   const authenticate = () => {
+    setLoading(true);
     signInWithRedirect(auth, provider);
+    setLoading(false);
   };
 
   return (
@@ -103,6 +111,7 @@ const LangCard = ({ title, options, newUser, setNewUser }: ILangCard) => {
 const Join = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const [id, setId] = useState('second');
   const [newUser, setNewUser] = useState<IFirebaseUser>({
     name: '',
     email: '',
@@ -138,9 +147,12 @@ const Join = () => {
     try {
       setLoading(true);
       const db = getFirestore();
-      await addDoc(collection(db, 'users'), { ...newUser });
-      setLoading(false);
-      navigate('/');
+      const user = await getDocs(collection(db, `users/user/${id}`));
+      if (!user) {
+        await addDoc(collection(db, `users/user/${id}`), newUser);
+        setLoading(false);
+        navigate('/');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -152,6 +164,8 @@ const Join = () => {
         if (result) {
           setLoading(true);
           const user = result.user;
+
+          setId(user.uid);
 
           setNewUser({
             ...newUser,
@@ -167,8 +181,7 @@ const Join = () => {
       .catch((error) => {
         console.error(error);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [newUser]);
 
   return (
     <Box sx={classes.root}>
@@ -190,7 +203,7 @@ const Join = () => {
       </Box>
 
       <Box sx={classes.content}>
-        {activeStep === 0 && <GithubButton loading={loading} />}
+        {activeStep === 0 && <GithubButton loading={loading} setLoading={setLoading} />}
 
         {activeStep === 1 && (
           <Box sx={classes.step2}>

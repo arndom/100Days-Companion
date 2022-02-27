@@ -13,7 +13,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
 
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2, 4),
+      padding: theme.spacing(2),
     },
   },
 
@@ -31,6 +31,10 @@ export const useStyles = makeStyles((theme: Theme) => ({
       display: 'block',
       marginLeft: 'auto',
 
+      [theme.breakpoints.down('md')]: {
+        width: 120,
+      },
+
       '&:hover': {
         border: 'none',
       },
@@ -44,6 +48,10 @@ export const useStyles = makeStyles((theme: Theme) => ({
       textTransform: 'none',
       fontSize: '1rem',
       color: '#fff',
+
+      [theme.breakpoints.down('md')]: {
+        padding: theme.spacing(1, 2),
+      },
     },
   },
 
@@ -62,13 +70,46 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 
-  btn: {
+  btnWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+
+    [theme.breakpoints.down('md')]: {
+      flexDiection: 'column',
+    },
+  },
+
+  signup: {
     '&.MuiButton-root': {
       width: 180,
       height: 48,
       borderRadius: 30,
       fontSize: '1rem ',
       textTransform: 'uppercase',
+
+      [theme.breakpoints.down('md')]: {
+        width: 140,
+        fontSize: '0.875rem',
+      },
+    },
+  },
+
+  login: {
+    '&.MuiButton-root': {
+      width: 180,
+      height: 48,
+      borderRadius: 30,
+      fontSize: '1rem ',
+      textTransform: 'uppercase',
+      color: '#fff',
+      borderWidth: '3px',
+      marginLeft: theme.spacing(2),
+
+      [theme.breakpoints.down('md')]: {
+        width: 130,
+        fontSize: '0.875rem',
+      },
     },
   },
 

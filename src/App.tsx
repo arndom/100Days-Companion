@@ -4,6 +4,7 @@ import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRouteType, appRoutes } from './routes/app';
 import NotFound from './pages/NotFound/NotFound';
+import AppWrapper from './context/AuthContext';
 
 function renderRoute(route: AppRouteType, index: number): JSX.Element {
   return (
@@ -20,11 +21,13 @@ const App = (): JSX.Element => {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <CssBaseline />
-        <Routes>
-          {appRoutes.map((route, index) => renderRoute(route, index))}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppWrapper>
+          <CssBaseline />
+          <Routes>
+            {appRoutes.map((route, index) => renderRoute(route, index))}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AppWrapper>
       </BrowserRouter>
     </ThemeProvider>
   );
