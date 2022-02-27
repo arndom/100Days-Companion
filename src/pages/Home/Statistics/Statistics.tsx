@@ -64,7 +64,11 @@ const Statistics = (): JSX.Element => {
 
   return (
     <Grid sx={classes.container} container spacing={5}>
+      <Typography variant="h6" ml={7} mt={4}>
+        Your Contribution History
+      </Typography>
       <Chart data={stats} />
+
       <Grid container item justifyContent="flex-start">
         <Grid sx={classes.languages}>
           <Typography variant="h6">Your Top 5 Languages</Typography>
