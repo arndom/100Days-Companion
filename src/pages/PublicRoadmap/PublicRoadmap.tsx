@@ -116,7 +116,7 @@ const RoadmapStatusCard = ({ status, color, items, loading }: IRoadmapStatusCard
           {loading ? (
             <Box sx={{ overflow: 'hidden', mt: 2 }}>
               <Box sx={{ display: 'flex', mb: 4 }}>
-                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={4} />
+                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={5} />
                 <Box ml={1}>
                   <Skeleton sx={{ bgcolor: '#4e526e', mb: 1 }} width={250} />
                   <Skeleton sx={{ bgcolor: '#4e526e' }} width="50%" />
@@ -124,7 +124,7 @@ const RoadmapStatusCard = ({ status, color, items, loading }: IRoadmapStatusCard
               </Box>
 
               <Box sx={{ display: 'flex', mb: 4 }}>
-                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={4} />
+                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={5} />
                 <Box ml={1}>
                   <Skeleton sx={{ bgcolor: '#4e526e', mb: 1 }} width={250} />
                   <Skeleton sx={{ bgcolor: '#4e526e' }} width="50%" />
@@ -132,7 +132,7 @@ const RoadmapStatusCard = ({ status, color, items, loading }: IRoadmapStatusCard
               </Box>
 
               <Box sx={{ display: 'flex', mb: 4 }}>
-                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={4} />
+                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={5} />
                 <Box ml={1}>
                   <Skeleton sx={{ bgcolor: '#4e526e', mb: 1 }} width={250} />
                   <Skeleton sx={{ bgcolor: '#4e526e' }} width="50%" />
