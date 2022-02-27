@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Avatar, Box, Button, Tab, Tabs, Typography } from '@mui/material';
+import { Avatar, Box, Button, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import { useStyles } from './useStyles';
 import { Link, Outlet } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
@@ -18,6 +18,7 @@ const LinkTab = (props: LinkTabProps) => {
 
 const Home = (): JSX.Element => {
   const [value, setValue] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -62,6 +63,7 @@ const Home = (): JSX.Element => {
           selected_paths: _data.selected_paths,
           start_date: _data.start_date,
         });
+        setLoading(false);
       } else {
         console.log('non existent');
       }
@@ -71,15 +73,25 @@ const Home = (): JSX.Element => {
   return (
     <Box sx={classes.home}>
       <Box sx={classes.profile}>
-        <Avatar sx={classes.avatar} alt="profile" src={user.photo} />
+        {loading ? (
+          <Skeleton variant="circular" sx={[classes.skeleton, classes.avatar]}>
+            <Avatar sx={classes.avatar} />
+          </Skeleton>
+        ) : (
+          <Avatar sx={classes.avatar} alt="profile" src={user.photo} />
+        )}
         <Box sx={classes.textWrapper}>
-          <Typography>{user.name}</Typography>
+          <Typography>{loading ? <Skeleton width="180%" sx={classes.skeleton} /> : user.name}</Typography>
           <Typography>
-            {user.selected_paths.map((path) => {
-              return `${path}, `;
-            })}
+            {loading ? (
+              <Skeleton width="250%" sx={classes.skeleton} />
+            ) : (
+              user.selected_paths.map((path) => {
+                return `${path}, `;
+              })
+            )}
           </Typography>
-          <Typography>{user.count}/100</Typography>
+          <Typography>{loading ? <Skeleton sx={classes.skeleton} /> : `${user.count}/100`}</Typography>
           <Button variant="text" size="small" sx={classes.btn}>
             Logout
           </Button>

@@ -74,4 +74,8 @@ export const useStyles = {
   tabs: {
     color: '#fff',
   },
+
+  skeleton: {
+    bgcolor: '#4e526e',
+  },
 } as const;
