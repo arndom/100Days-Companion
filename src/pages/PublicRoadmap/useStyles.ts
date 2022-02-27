@@ -1,9 +1,19 @@
+import { theme } from '../../themes/theme';
+
 export const useStyles = {
   root: {
     backgroundColor: '#0e0219',
     minHeight: '100vh',
     color: '#fff',
-    padding: '40px 40px',
+    padding: theme.spacing(0, 12, 2),
+
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(0, 6, 2),
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 4, 2),
+    },
   },
 
   // Roadmap Status Card
@@ -26,7 +36,7 @@ export const useStyles = {
 
     '& .MuiList-root': {
       width: '100%',
-      maxWidth: 360,
+      // maxWidth: 360,
       overflow: 'auto',
       maxHeight: 300,
 

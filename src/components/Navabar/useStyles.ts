@@ -16,6 +16,7 @@ export const useStyles = {
   logo: {
     display: 'flex',
     alignItems: 'center',
+    cursor: 'pointer',
   },
 
   roadmap: {

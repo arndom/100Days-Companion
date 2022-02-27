@@ -17,6 +17,7 @@ import {
   Snackbar,
   Alert,
   Autocomplete,
+  Skeleton,
 } from '@mui/material';
 import { KeyboardArrowUp, Save } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -37,6 +38,7 @@ interface IRoadmapStatusCard {
   status: string;
   color: string;
   items: IFeatureRequest[];
+  loading: boolean;
 }
 
 interface IFeatureModalDetails {
@@ -49,7 +51,7 @@ interface IFeatureModal {
   item: IFeatureModalDetails;
 }
 
-const RoadmapStatusCard = ({ status, color, items }: IRoadmapStatusCard) => {
+const RoadmapStatusCard = ({ status, color, items, loading }: IRoadmapStatusCard) => {
   // Feature Modal
   const [open, setOpen] = useState(false);
   const handleOpen = (item: IFeatureModalDetails) => {
@@ -105,38 +107,66 @@ const RoadmapStatusCard = ({ status, color, items }: IRoadmapStatusCard) => {
     <Card sx={classes.roadmapStatusCard}>
       <CardContent>
         <Typography variant="h6">
-          <Box component="span" sx={{ background: `${color}` }}>
+          <Box component="span" sx={{ background: `${color}`, borderRadius: '4px' }}>
             {status.toUpperCase()}
           </Box>
         </Typography>
         <List>
           <CustomModal item={item} />
-          {items.map((item, index: number) => (
-            <ListItem
-              key={index}
-              secondaryAction={
-                <Box>
-                  <Grid container>
-                    <IconButton edge="end" aria-label="vote" onClick={() => handleVote(item.id, item.votes)}>
-                      <KeyboardArrowUp sx={{ color: '#9020fb' }} />
-                    </IconButton>
-                  </Grid>
-                  <Grid container sx={{ paddingLeft: '13px' }}>
-                    <Typography>{item.votes}</Typography>
-                  </Grid>
+          {loading ? (
+            <Box sx={{ overflow: 'hidden', mt: 2 }}>
+              <Box sx={{ display: 'flex', mb: 4 }}>
+                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={4} />
+                <Box ml={1}>
+                  <Skeleton sx={{ bgcolor: '#4e526e', mb: 1 }} width={250} />
+                  <Skeleton sx={{ bgcolor: '#4e526e' }} width="50%" />
                 </Box>
-              }
-            >
-              <Divider orientation="vertical" sx={{ borderLeft: `3px solid ${color}` }} />
-              <IconButton onClick={() => handleOpen(item)}>
-                <ListItemText
-                  primary={item.title}
-                  secondary={item.type}
-                  secondaryTypographyProps={{ marginTop: '2px' }}
-                />
-              </IconButton>
-            </ListItem>
-          ))}
+              </Box>
+
+              <Box sx={{ display: 'flex', mb: 4 }}>
+                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={4} />
+                <Box ml={1}>
+                  <Skeleton sx={{ bgcolor: '#4e526e', mb: 1 }} width={250} />
+                  <Skeleton sx={{ bgcolor: '#4e526e' }} width="50%" />
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', mb: 4 }}>
+                <Skeleton sx={{ bgcolor: '#4e526e' }} variant="rectangular" height={70} width={4} />
+                <Box ml={1}>
+                  <Skeleton sx={{ bgcolor: '#4e526e', mb: 1 }} width={250} />
+                  <Skeleton sx={{ bgcolor: '#4e526e' }} width="50%" />
+                </Box>
+              </Box>
+            </Box>
+          ) : (
+            items.map((item, index: number) => (
+              <ListItem
+                key={index}
+                secondaryAction={
+                  <Box>
+                    <Grid container>
+                      <IconButton edge="end" aria-label="vote" onClick={() => handleVote(item.id, item.votes)}>
+                        <KeyboardArrowUp sx={{ color: '#9020fb' }} />
+                      </IconButton>
+                    </Grid>
+                    <Grid container sx={{ paddingLeft: '13px' }}>
+                      <Typography>{item.votes}</Typography>
+                    </Grid>
+                  </Box>
+                }
+              >
+                <Divider orientation="vertical" sx={{ borderLeft: `3px solid ${color}` }} />
+                <IconButton onClick={() => handleOpen(item)}>
+                  <ListItemText
+                    primary={item.title}
+                    secondary={item.type}
+                    secondaryTypographyProps={{ marginTop: '2px' }}
+                  />
+                </IconButton>
+              </ListItem>
+            ))
+          )}
         </List>
       </CardContent>
       <Snackbar open={alert.isTrue} autoHideDuration={2000} onClose={handleAlertClose}>
@@ -151,6 +181,7 @@ const RoadmapStatusCard = ({ status, color, items }: IRoadmapStatusCard) => {
 const PublicRoadmap = () => {
   const [roadmaps, setRoadmaps] = useState([]);
   const [featureRequestCount, setFeatureRequestCount] = useState(0);
+  const [contentLoading, setContentLoading] = useState(true);
 
   // Alert
   const [alert, setAlert] = useState({ isTrue: false, message: '' });
@@ -160,14 +191,17 @@ const PublicRoadmap = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   // Form
   const [featureRequest, setFeatureRequest] = useState({ title: '', description: '' });
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFeatureRequest({ ...featureRequest, [name]: value });
   };
+
   // Loading Button
   const [loading, setLoading] = useState(false);
+
   // Submit
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -199,6 +233,7 @@ const PublicRoadmap = () => {
       const roadmaps = await getFeatureRequests();
       const unsubscribe = onSnapshot(roadmaps, (snapshot) => {
         setRoadmaps(convertRoadmapsSnapshotToMap(snapshot));
+        setContentLoading(false);
         setFeatureRequestCount(snapshot.size);
       });
       return function cleanup() {
@@ -209,16 +244,6 @@ const PublicRoadmap = () => {
 
   return (
     <Grid sx={classes.root} container>
-      <Grid container item>
-        <Grid item xs={6}>
-          Logo
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="outlined" sx={classes.login} disableRipple>
-            <Typography>Login</Typography>
-          </Button>
-        </Grid>
-      </Grid>
       <Grid container item direction="row" justifyContent="flex-end">
         <Autocomplete
           sx={{ width: 300, ...classes.search }}
@@ -236,7 +261,9 @@ const PublicRoadmap = () => {
               </Grid>
               <Grid item>
                 <Typography>
-                  <Box component="span">{featureRequestCount}</Box>
+                  <Box component="span" sx={{ borderRadius: '4px' }}>
+                    {featureRequestCount}
+                  </Box>
                 </Typography>
               </Grid>
             </Grid>
@@ -302,20 +329,32 @@ const PublicRoadmap = () => {
             status="suggestions"
             color="#9020fb"
             items={filterRoadmapsByStatus(roadmaps, 'suggestions')}
+            loading={contentLoading}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={4}>
-          <RoadmapStatusCard status="planned" color="#1B3C40" items={filterRoadmapsByStatus(roadmaps, 'planned')} />
+          <RoadmapStatusCard
+            status="planned"
+            color="#1B3C40"
+            items={filterRoadmapsByStatus(roadmaps, 'planned')}
+            loading={contentLoading}
+          />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={4}>
           <RoadmapStatusCard
             status="in progress"
             color="#223E2B"
             items={filterRoadmapsByStatus(roadmaps, 'in_progress')}
+            loading={contentLoading}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={4}>
-          <RoadmapStatusCard status="live" color="#3E3418" items={filterRoadmapsByStatus(roadmaps, 'live')} />
+          <RoadmapStatusCard
+            status="live"
+            color="#3E3418"
+            items={filterRoadmapsByStatus(roadmaps, 'live')}
+            loading={contentLoading}
+          />
         </Grid>
       </Grid>
       <Snackbar open={alert.isTrue} autoHideDuration={2000} onClose={handleAlertClose}>
