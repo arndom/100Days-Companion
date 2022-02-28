@@ -3,17 +3,17 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   landing: {
-    padding: theme.spacing(2, 12),
+    padding: theme.spacing(0, 12, 2),
     backgroundColor: '#0e0219',
     minHeight: '100vh',
     color: '#fff',
 
     [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(2, 6),
+      padding: theme.spacing(0, 6, 2),
     },
 
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2),
+      padding: theme.spacing(0, 4, 2),
     },
   },
 

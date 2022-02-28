@@ -26,3 +26,13 @@ interface IFirebaseUser {
   stack: IStack;
   startDate: Date | null;
 }
+
+interface IFeatureRequest {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  votes: number;
+  status: string;
+  timestamp: timestamp;
+}

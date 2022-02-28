@@ -1,6 +1,5 @@
-import { Button, Grid, IconButton, Typography, Box } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { AnimatedSVG } from '../../assets/svgs/animatedSVG';
-import logo from '../../assets/images/logo.png';
 import { useStyles } from './useStyles';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
@@ -19,20 +18,6 @@ const Landing = () => {
 
   return (
     <Grid container className={classes.landing}>
-      <Grid item xs={6}>
-        <Box className={classes.logo}>
-          <img src={logo} alt="logo" height={40} width={40} />
-          <Typography variant="h6" ml={1}>
-            Companion
-          </Typography>
-        </Box>
-      </Grid>
-      <Grid item xs={6}>
-        <Button variant="outlined" className={classes.roadmap} disableRipple>
-          <Typography>Roadmap</Typography>
-        </Button>
-      </Grid>
-
       <Grid container className={classes.header}>
         <Grid item xs={12} md={6} marginBottom={{ xs: 5, md: 0 }}>
           <Typography variant="h1" className={classes.heading}>
@@ -73,38 +58,6 @@ const Landing = () => {
             Earn badges, view commit frequency, get extension recommendations and make suggestions to make the app
             better
           </Typography>
-        </Grid>
-      </Grid>
-
-      <Grid container alignItems="center" className={classes.footer}>
-        <Grid item xs={12} md={8} sx={{ textAlign: 'center' }}>
-          <Typography>
-            Made with ❤️ by
-            <Button target="_blank" href="http://github.com/arndom" className={classes.link} disableRipple>
-              Nabil,
-            </Button>
-            <Button target="_blank" href="https://github.com/Omzlaw" className={classes.link} disableRipple>
-              Omeiza,
-            </Button>
-            <Button target="_blank" href="http://github.com/habib-ahmad" className={classes.link} disableRipple>
-              Ahmad
-            </Button>
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <IconButton
-            target="_blank"
-            href="http://github.com/arndom/100Days-Companion"
-            sx={{ display: 'block', margin: '0 auto' }}
-            disableRipple
-          >
-            <img
-              src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
-              alt="GitHub"
-              style={{ width: '45px' }}
-            />
-          </IconButton>
         </Grid>
       </Grid>
     </Grid>

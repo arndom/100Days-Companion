@@ -32,6 +32,7 @@ export const useStyles = {
 
   btn: {
     justifyContent: 'left',
+    width: 'fit-content',
 
     '&:hover': {
       backgroundColor: 'transparent',
@@ -50,7 +51,7 @@ export const useStyles = {
     height: 120,
 
     '.MuiTypography-root': {
-      fontSize: '1.5rem',
+      fontSize: '1.15rem',
       fontWeight: 600,
     },
   },
@@ -76,5 +77,24 @@ export const useStyles = {
 
   tabs: {
     color: '#fff',
+  },
+
+  skeleton: {
+    bgcolor: '#4e526e',
+  },
+
+  stack: {
+    display: 'flex',
+
+    '& .MuiTypography-root': {
+      '&::after ': {
+        marginRight: '10px',
+        content: '","',
+      },
+
+      '&:last-child::after': {
+        content: '""',
+      },
+    },
   },
 } as const;

@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import { Avatar, Box, Button, Tab, Tabs, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Avatar, Box, Button, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import { useStyles } from './useStyles';
 import { Link, Outlet } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
 import { getAuth, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../utils/firebaseConfig';
 
 const classes = useStyles;
 
@@ -19,10 +21,12 @@ const LinkTab = (props: LinkTabProps) => {
 const Home = (): JSX.Element => {
   const [value, setValue] = useState(0);
   const [state] = useAuthContext();
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
 
   const logout = () => {
     const auth = getAuth();
@@ -34,18 +38,36 @@ const Home = (): JSX.Element => {
         console.error(error);
       });
   };
-
+  
   const img = state.photo ? state.photo : '';
-  const stack = Object.keys(state.stack);
+  const objToArray = (obj: IStack) => Object.keys(obj).map((key) => [key, obj[key]]);
+  const _stack = objToArray(user.stack);
+  const stack = _stack.filter((item) => item.includes(true)).map((item) => item[0]);
 
   return (
     <Box sx={classes.home}>
       <Box sx={classes.profile}>
-        <Avatar src={img} alt="" sx={classes.avatar} />
+        {loading ? (
+          <Skeleton variant="circular" sx={[classes.skeleton, classes.avatar]}>
+            <Avatar sx={classes.avatar} />
+          </Skeleton>
+        ) : (
+          <Avatar sx={classes.avatar} alt="profile" src={img} />
+        )}
         <Box sx={classes.textWrapper}>
-          <Typography>{state.name}</Typography>
-          <Typography>{stack.map((lang) => `${lang}, `)}</Typography>
-          <Typography>{`${state.count}/100`}</Typography>
+          <Typography>{loading ? <Skeleton width="180%" sx={classes.skeleton} /> : state.name}</Typography>
+          <Typography>
+            {loading ? (
+              <Skeleton width="250%" sx={classes.skeleton} />
+            ) : (
+              <Box sx={classes.stack}>
+                {stack.map((lang, index) => (
+                  <Typography key={index}>{lang}</Typography>
+                ))}
+              </Box>
+            )}
+          </Typography>
+          <Typography>{loading ? <Skeleton sx={classes.skeleton} /> : `${state.count}/100`}</Typography>
           <Button onClick={logout} variant="text" size="small" sx={classes.btn} disableRipple>
             Logout
           </Button>

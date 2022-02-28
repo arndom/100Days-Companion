@@ -1,4 +1,18 @@
+import { theme } from '../../../themes/theme';
+
 export const useStyles = {
+  container: {
+    padding: theme.spacing(0, 12, 2),
+
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(0, 6, 2),
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 4, 2),
+    },
+  },
+
   notifications: {
     fontSize: '1.3em',
     marginBottom: '1em',
