@@ -14,7 +14,7 @@ export const initialState: IFirebaseUser = {
   },
   stack: {},
   notificationFrequency: 'daily',
-  startDate: new Date(),
+  startDate: '',
 };
 
 export interface Action {

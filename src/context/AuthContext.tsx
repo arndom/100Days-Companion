@@ -39,7 +39,7 @@ const AppWrapper: FunctionComponent = ({ children }): JSX.Element => {
               payload: currentUser,
             });
 
-            navigate('/');
+            navigate('/milestones');
           }
         }
       } else {

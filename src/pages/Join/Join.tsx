@@ -111,7 +111,8 @@ const LangCard = ({ title, options, newUser, setNewUser }: ILangCard) => {
 const Join = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const [id, setId] = useState('second');
+  const [id, setId] = useState('');
+
   const [newUser, setNewUser] = useState<IFirebaseUser>({
     name: '',
     email: '',
@@ -134,7 +135,7 @@ const Join = () => {
       '90days': false,
       '100days': false,
     },
-    startDate: new Date(),
+    startDate: '',
   });
 
   const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -151,7 +152,7 @@ const Join = () => {
       if (!docSnap.exists()) {
         await setDoc(doc(db, `users/${id}`), newUser);
         setLoading(false);
-        navigate('/');
+        navigate('/milestones');
       }
     } catch (error) {
       console.error(error);
@@ -228,7 +229,8 @@ const Join = () => {
               <DatePicker
                 value={newUser.startDate}
                 onChange={(newValue) => {
-                  setNewUser({ ...newUser, startDate: newValue });
+                  const date = newValue && new Date(newValue).toISOString();
+                  setNewUser({ ...newUser, startDate: date });
                 }}
                 renderInput={(params) => <TextField sx={classes.datePickerTextfield} color="secondary" {...params} />}
               />
