@@ -41,7 +41,13 @@ const Home = (): JSX.Element => {
     name: '',
     notification_frequency: '',
     photo: '',
-    selected_paths: [],
+    stack: {
+      Angular: false,
+      JS: false,
+      Node: false,
+      React: false,
+      Vue: false,
+    },
     start_date: '',
   });
 
@@ -60,7 +66,7 @@ const Home = (): JSX.Element => {
           name: _data.name,
           notification_frequency: _data.notification_frequency,
           photo: _data.photo,
-          selected_paths: _data.selected_paths,
+          stack: _data.stack,
           start_date: _data.start_date,
         });
         setLoading(false);
@@ -69,6 +75,10 @@ const Home = (): JSX.Element => {
       }
     })();
   }, []);
+
+  const objToArray = (obj: IStack) => Object.keys(obj).map((key) => [key, obj[key]]);
+  const _stack = objToArray(user.stack);
+  const stack = _stack.filter((item) => item.includes(true)).map((item) => item[0]);
 
   return (
     <Box sx={classes.home}>
@@ -86,9 +96,11 @@ const Home = (): JSX.Element => {
             {loading ? (
               <Skeleton width="250%" sx={classes.skeleton} />
             ) : (
-              user.selected_paths.map((path) => {
-                return `${path}, `;
-              })
+              <Box sx={classes.stack}>
+                {stack.map((lang, index) => (
+                  <Typography key={index}>{lang}</Typography>
+                ))}
+              </Box>
             )}
           </Typography>
           <Typography>{loading ? <Skeleton sx={classes.skeleton} /> : `${user.count}/100`}</Typography>

@@ -1,11 +1,9 @@
-import { Grid, Box, Typography, List, ListItem, ListItemText } from '@mui/material';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Grid, Typography, List, ListItem, ListItemText, Skeleton, CircularProgress, Box } from '@mui/material';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { useStyles } from './useStyles';
-import gem1 from '../../../assets/images/gem1.png';
-import gem2 from '../../../assets/images/gem2.png';
 import gem3 from '../../../assets/images/gem3.png';
-import gem4 from '../../../assets/images/gem4.png';
-import gem5 from '../../../assets/images/gem5.png';
 
 const classes = useStyles;
 
@@ -14,9 +12,9 @@ interface ChartProps {
 }
 
 const Chart = (props: ChartProps) => (
-  <ResponsiveContainer width="100%" height={300}>
-    <LineChart data={props.data} margin={{ top: 5, right: 55, bottom: 5, left: 0 }}>
-      <Line type="monotone" dataKey="frequency" stroke="#8884d8" />
+  <ResponsiveContainer width="100%" height={320}>
+    <LineChart data={props.data} margin={{ top: 15, bottom: 5, left: 0 }}>
+      <Line type="monotone" dataKey="contributionCount" stroke="#8884d8" />
       <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
       <XAxis dataKey="date" />
       <YAxis />
@@ -26,63 +24,72 @@ const Chart = (props: ChartProps) => (
 );
 
 const Statistics = (): JSX.Element => {
-  const earnedBadges = [
-    { name: '1 Month', image: gem1 },
-    { name: '21 Days', image: gem2 },
-    { name: '2 Months', image: gem3 },
-    { name: '7 Days', image: gem4 },
-    { name: 'Capstone', image: gem5 },
-  ];
+  const user = 'arndom';
+  const from = '2022-02-01T00:00:00Z';
+  const [loading, setLoading] = useState(true);
 
-  const topLanguages = [
-    { name: 'JavaScript', image: gem1 },
-    { name: 'TypeScript', image: gem2 },
-    { name: 'React', image: gem3 },
-    { name: 'NodeJs', image: gem4 },
-    { name: 'Angular', image: gem5 },
-  ];
+  const statsURL = `https://us-central1-dayscompanion.cloudfunctions.net/getContributionDetails?user=${user}&from=${from}`;
+  const langsURL = `https://us-central1-dayscompanion.cloudfunctions.net/getTopLanguages?username=${user}`;
 
-  const frequencyData = [
-    { date: 'Day 1', frequency: 20 },
-    { date: 'Day 2', frequency: 10 },
-    { date: 'Day 3', frequency: 5 },
-    { date: 'Day 4', frequency: 6 },
-    { date: 'Day 5', frequency: 10 },
-    { date: 'Day 6', frequency: 12 },
-    { date: 'Day 7', frequency: 8 },
+  const _stats = [
+    { date: 'Day 1', contributionCount: 20 },
+    { date: 'Day 2', contributionCount: 10 },
+    { date: 'Day 3', contributionCount: 5 },
+    { date: 'Day 4', contributionCount: 6 },
+    { date: 'Day 5', contributionCount: 10 },
+    { date: 'Day 6', contributionCount: 12 },
+    { date: 'Day 7', contributionCount: 8 },
   ];
+  const [stats, setStats] = useState(_stats);
+
+  const _languages = [''];
+  const skeletonLang = Array(5).fill(0);
+  const [languages, setLanguages] = useState(_languages);
+
+  useEffect(() => {
+    const promise1 = axios.get(statsURL);
+    const promise2 = axios.get(langsURL);
+
+    Promise.all([promise1, promise2]).then(function (values) {
+      const res = values;
+
+      const stat = res[0].data.contributionFrequency;
+      setStats(stat);
+
+      const _lang = res[1].data;
+      const lang = Object.fromEntries(Object.entries(_lang).slice(0, 5));
+      const langArr = Object.keys(lang);
+      setLanguages(langArr);
+
+      setLoading(false);
+    });
+  }, [statsURL, langsURL]);
 
   return (
-    <Grid sx={classes.root} container spacing={5}>
-      <Grid container item>
-        <Grid item xs={12} sm={12} md={6}>
-          <Chart data={frequencyData} />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6}>
-          <Box sx={classes.calendar}></Box>
-        </Grid>
-      </Grid>
+    <Grid sx={classes.container} container spacing={5}>
+      <Box ml={7} mt={4} sx={classes.contributionTitle}>
+        <Typography variant="h6">Your Contribution History</Typography>
+        {loading && <CircularProgress sx={classes.progress} />}
+      </Box>
+      <Chart data={stats} />
+
       <Grid container item justifyContent="flex-start">
-        <Grid sx={classes.badges}>
-          <Typography>Earned badges</Typography>
-          <List>
-            {earnedBadges.map((badge, index) => (
-              <ListItem key={index}>
-                <img width="20" height="20" src={badge.image} alt="" />
-                <ListItemText primary={badge.name} />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
         <Grid sx={classes.languages}>
-          <Typography>Top Languages</Typography>
+          <Typography variant="h6">Your Top 5 Languages</Typography>
           <List>
-            {topLanguages.map((language, index) => (
-              <ListItem key={index}>
-                <img width="20" height="20" src={language.image} alt="" />
-                <ListItemText primary={language.name} />
-              </ListItem>
-            ))}
+            {loading
+              ? skeletonLang.map((language, index) => (
+                  <ListItem key={index} sx={{ px: 0 }}>
+                    <img width="20" height="20" src={gem3} alt="" />
+                    <Skeleton sx={{ bgcolor: '#4e526e', ml: 2, my: '4px' }} width={150} />
+                  </ListItem>
+                ))
+              : languages.map((language, index) => (
+                  <ListItem key={index} sx={{ px: 0 }}>
+                    <img width="20" height="20" src={gem3} alt="" />
+                    <ListItemText primary={language} />
+                  </ListItem>
+                ))}
           </List>
         </Grid>
       </Grid>

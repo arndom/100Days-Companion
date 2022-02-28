@@ -14,7 +14,7 @@ export const useStyles = {
   },
 
   footer: {
-    marginTop: theme.spacing(20),
+    marginTop: theme.spacing(15),
     borderTop: '1px solid #fff',
     paddingTop: theme.spacing(2),
   },

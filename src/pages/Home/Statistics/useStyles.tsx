@@ -1,9 +1,14 @@
 import { theme } from '../../../themes/theme';
 export const useStyles = {
-  root: {
-    paddingLeft: theme.spacing(12),
+  container: {
+    padding: theme.spacing(0, 12, 2),
+
     [theme.breakpoints.down('md')]: {
-      paddingLeft: 0,
+      padding: theme.spacing(0, 6, 2),
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 4, 2),
     },
   },
 
@@ -26,11 +31,22 @@ export const useStyles = {
   },
 
   languages: {
-    marginLeft: theme.spacing(5),
+    // marginLeft: theme.spacing(5),
     marginTop: theme.spacing(2),
 
     '& .MuiListItemText-root': {
       marginLeft: theme.spacing(2),
     },
+  },
+
+  contributionTitle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  progress: {
+    width: '18px !important',
+    height: '18px !important',
+    ml: 2,
   },
 };

@@ -78,4 +78,19 @@ export const useStyles = {
   skeleton: {
     bgcolor: '#4e526e',
   },
+
+  stack: {
+    display: 'flex',
+
+    '& .MuiTypography-root': {
+      '&::after ': {
+        marginRight: '10px',
+        content: '","',
+      },
+
+      '&:last-child::after': {
+        content: '""',
+      },
+    },
+  },
 } as const;
