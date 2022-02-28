@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { fetchTopLanguages } from './fetchTopLanguages';
 import { sendMail } from './emailNotifications';
-import { fetchContributionsDetails, updateCount } from './fetchContributions';
+import { fetchContributionsDetails, updateCount, updateMilestone } from './fetchContributions';
 import * as cors from 'cors';
 
 // // // Start writing Firebase Functions
@@ -34,7 +34,16 @@ export const getContributionDetails = functions.https.onRequest(async (request, 
   });
 });
 
-//update user count daily at 1:00AM daily
+//update user milestone at 1:00AM daily
+export const updateUserMilestone = functions.pubsub
+  .schedule('0 1 * * *')
+  .timeZone('Etc/GMT')
+  .onRun(async () => {
+    functions.logger.info('Updating Milestones...', { structuredData: true });
+    await updateMilestone();
+  });
+
+//update user count at 1:00AM daily
 export const updateUserCount = functions.pubsub
   .schedule('0 1 * * *')
   .timeZone('Etc/GMT')
