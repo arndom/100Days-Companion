@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import { useStyles } from './useStyles';
 import { Link, Outlet } from 'react-router-dom';
@@ -19,11 +19,15 @@ const LinkTab = (props: LinkTabProps) => {
 const Home = (): JSX.Element => {
   const [value, setValue] = useState(0);
   const [state] = useAuthContext();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    state.name && setLoading(false);
+  }, [state]);
 
   const logout = () => {
     const auth = getAuth();

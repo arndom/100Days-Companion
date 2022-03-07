@@ -38,8 +38,6 @@ const AppWrapper: FunctionComponent = ({ children }): JSX.Element => {
               type: 'CHECK_USER',
               payload: currentUser,
             });
-
-            navigate('/milestones');
           }
         }
       } else {

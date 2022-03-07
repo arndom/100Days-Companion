@@ -1,10 +1,27 @@
 import { Button, Grid, Typography } from '@mui/material';
 import { AnimatedSVG } from '../../assets/svgs/animatedSVG';
 import { useStyles } from './useStyles';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { navigateTo } from '../../utils/utils';
+import { auth } from '../../utils/firebaseConfig';
+import { GithubAuthProvider, signInWithRedirect } from 'firebase/auth';
 
 const Landing = () => {
   const classes = useStyles;
+
+  const navigate = useNavigate();
+  const navigator = (href: string) => navigateTo(href, navigate);
+
+  const checkNewUser = () => {
+    const isReturningUser = localStorage.getItem('newUser');
+    if (isReturningUser) {
+      const provider = new GithubAuthProvider();
+      signInWithRedirect(auth, provider);
+      navigator('/milestones');
+    } else {
+      navigator('/join');
+    }
+  };
 
   return (
     <Grid container sx={classes.landing}>
@@ -13,7 +30,7 @@ const Landing = () => {
           <Typography variant="h1" sx={classes.heading}>
             <span style={{ color: '#9020fb' }}>100 </span>Day Companion
           </Typography>
-          <Button component={Link} to="/join" variant="contained" sx={classes.btn}>
+          <Button onClick={checkNewUser} variant="contained" sx={classes.btn}>
             Get started
           </Button>
         </Grid>
