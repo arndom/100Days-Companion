@@ -2,26 +2,37 @@ import { Button, Grid, Typography } from '@mui/material';
 import { AnimatedSVG } from '../../assets/svgs/animatedSVG';
 import { useStyles } from './useStyles';
 import { useNavigate } from 'react-router-dom';
-import { navigateTo } from '../../utils/utils';
 import { auth } from '../../utils/firebaseConfig';
-import { GithubAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { getRedirectResult, GithubAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { useEffect } from 'react';
 
 const Landing = () => {
   const classes = useStyles;
 
   const navigate = useNavigate();
-  const navigator = (href: string) => navigateTo(href, navigate);
 
   const checkNewUser = () => {
-    const isReturningUser = localStorage.getItem('newUser');
+    const isReturningUser = localStorage.getItem('returningUser');
     if (isReturningUser) {
       const provider = new GithubAuthProvider();
       signInWithRedirect(auth, provider);
-      navigator('/milestones');
     } else {
-      navigator('/join');
+      navigate('/join');
     }
   };
+
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          navigate('/milestones');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Grid container sx={classes.landing}>

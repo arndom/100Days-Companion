@@ -152,7 +152,7 @@ const Join = () => {
       if (!docSnap.exists()) {
         await setDoc(doc(db, `users/${id}`), newUser);
         setLoading(false);
-        localStorage.setItem('newUser', 'false');
+        localStorage.setItem('returningUser', 'true');
         navigate('/milestones');
       }
     } catch (error) {

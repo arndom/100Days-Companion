@@ -74,11 +74,15 @@ const Home = (): JSX.Element => {
       </Box>
 
       <Box sx={classes.tabsWrapper}>
-        <Tabs value={value} onChange={handleChange} variant="scrollable" sx={classes.tabs}>
-          <LinkTab label="Milestones" to="milestones" />
-          <LinkTab label="Statistics" to="statistics" />
-          <LinkTab label="Settings" to="settings" />
-        </Tabs>
+        {loading ? (
+          <Skeleton width="80%" sx={classes.skeleton} />
+        ) : (
+          <Tabs value={value} onChange={handleChange} variant="scrollable" sx={classes.tabs}>
+            <LinkTab label="Milestones" to="milestones" />
+            <LinkTab label="Statistics" to="statistics" />
+            <LinkTab label="Settings" to="settings" />
+          </Tabs>
+        )}
       </Box>
       <Outlet />
     </Box>
