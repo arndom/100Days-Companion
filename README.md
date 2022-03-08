@@ -1,46 +1,35 @@
-# Getting Started with Create React App
+# 100 Day Companion
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A productivity tool to help developers complete the 100 days of code challenge by tracking progress, achieving badges and more.
 
-## Available Scripts
+**Tech Stack:** React.js / Material-UI, TypeScript, Firebase, Netlify
 
-In the project directory, you can run:
+**Contributors**: [Ahmad Habib](https://github.com/Habib-Ahmad), [Nabil](https://github.com/arndom), [Omeiza](https://github.com/Omzlaw)
 
-### `yarn start`
+## Screenshot
+![image](https://user-images.githubusercontent.com/61251497/157242605-3a8723c8-8de1-47e4-8322-d40d2cc24efc.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Features
+### Milestones
+Track your progress and receive achieve badges for each milestone reached
+<br />
 
-### `yarn test`
+![image](https://user-images.githubusercontent.com/61251497/157242997-1542a3a0-c195-45dd-9bb0-f91155e833f5.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Statistics
+Get insight into your habits and patterns
+<br />
 
-### `yarn build`
+![image](https://user-images.githubusercontent.com/61251497/157244129-72b34c2b-1f76-4cd1-9e5f-c596a90a12c6.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Roadmap
+Suggest new feaures you want to see included inot the app to imporve user experrience
+<br />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![image](https://user-images.githubusercontent.com/61251497/157244320-5f6f5e3c-a61b-4108-940d-05c8a278df0c.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Additional information
+The authentcation was implemented with firebase and it was hosted on Netlify.
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
