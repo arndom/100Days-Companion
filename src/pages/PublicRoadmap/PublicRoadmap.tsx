@@ -31,6 +31,7 @@ import {
   onSnapshot,
   Timestamp,
 } from '../../utils/firebaseUtils';
+import { useAuthContext } from '../../context/AuthContext';
 const classes = useStyles;
 
 interface IRoadmapStatusCard {
@@ -50,9 +51,10 @@ interface IFeatureModal {
   item: IFeatureModalDetails;
 }
 
-const isAuthenticated = false;
-
 const RoadmapStatusCard = ({ status, color, items, loading }: IRoadmapStatusCard) => {
+  const [state] = useAuthContext();
+  const isAuthenticated = state.name !== '';
+
   // Feature Modal
   const [open, setOpen] = useState(false);
   const handleOpen = (item: IFeatureModalDetails) => {
@@ -180,6 +182,9 @@ const RoadmapStatusCard = ({ status, color, items, loading }: IRoadmapStatusCard
 };
 
 const PublicRoadmap = () => {
+  const [state] = useAuthContext();
+  const isAuthenticated = state.name !== '';
+
   const [roadmaps, setRoadmaps] = useState([]);
   const [featureRequestCount, setFeatureRequestCount] = useState(0);
   const [contentLoading, setContentLoading] = useState(true);
@@ -194,7 +199,7 @@ const PublicRoadmap = () => {
     if (isAuthenticated) {
       setOpen(true);
     } else {
-      setAlert({ isTrue: true, message: 'Please sign-in suggesting!' });
+      setAlert({ isTrue: true, message: 'Please sign-in before suggesting!' });
     }
   };
   const handleClose = () => setOpen(false);
