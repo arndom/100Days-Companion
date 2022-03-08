@@ -13,7 +13,7 @@ const Navabar = () => {
   return (
     <Grid container sx={classes.container}>
       <Grid item xs={6}>
-        <Box sx={classes.logo} onClick={() => navigator('/')}>
+        <Box sx={classes.logo} onClick={() => navigator('/milestones')}>
           <img src={logo} alt="logo" height={50} width={50} />
           <Typography variant="h6" ml={1} sx={{ display: { xs: 'none', md: 'block', lg: 'block' } }}>
             Companion
