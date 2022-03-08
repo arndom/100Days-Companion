@@ -4,6 +4,7 @@ import { Grid, Typography, List, ListItem, ListItemText, Skeleton, CircularProgr
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { useStyles } from './useStyles';
 import gem3 from '../../../assets/images/gem3.png';
+import { useAuthContext } from '../../../context/AuthContext';
 
 const classes = useStyles;
 
@@ -24,8 +25,10 @@ const Chart = (props: ChartProps) => (
 );
 
 const Statistics = (): JSX.Element => {
-  const user = 'arndom';
-  const from = '2022-02-01T00:00:00Z';
+  const [state] = useAuthContext();
+
+  const user = state.name;
+  const from = state.startDate;
   const [loading, setLoading] = useState(true);
 
   const statsURL = `https://us-central1-dayscompanion.cloudfunctions.net/getContributionDetails?user=${user}&from=${from}`;

@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Typography, Radio, RadioGroup, FormControl, FormControlLabel } from '@mui/material';
 
 import { useStyles } from './useStyles';
+import { useAuthContext } from '../../../context/AuthContext';
+import { auth } from '../../../utils/firebaseConfig';
+import { updateNotificationsFreq } from '../../../utils/firebaseUtils';
 
 const classes = useStyles;
 
 const Settings = (): JSX.Element => {
-  const [frequency, setFrequency] = useState('daily');
+  const [state] = useAuthContext();
+  const [frequency, setFrequency] = useState(state.notificationFrequency);
   const [app, setApp] = useState('email');
 
+  const [uid, setUID] = useState('');
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) setUID(user.uid);
+    });
+  }, []);
+
+  const handleFreqUpdate = async (value: string) => {
+    const id = uid;
+    await updateNotificationsFreq(id, value);
+  };
+
   const handleFrequencyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFrequency((event.target as HTMLInputElement).value);
+    const value = (event.target as HTMLInputElement).value;
+    setFrequency(value);
+    handleFreqUpdate(value);
   };
 
   const handleAppChange = (event: React.ChangeEvent<HTMLInputElement>) => {

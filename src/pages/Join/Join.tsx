@@ -22,6 +22,7 @@ import { GithubAuthProvider, signInWithRedirect, getRedirectResult } from 'fireb
 import { getDoc, setDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../../utils/firebaseConfig';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 const steps = ['Connect Github', 'Select Path', 'Set Date '];
 const classes = useStyles;
@@ -160,21 +161,31 @@ const Join = () => {
     }
   };
 
+  const getGitHubUserData = async (uid: string) => {
+    return await axios.get(`https://api.github.com/user/${uid}`).then((res) => res.data);
+  };
+
   useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
         if (result) {
           setLoading(true);
           const user = result.user;
+          const gitUID = user.providerData.find((pd) => pd.providerId === 'github.com')?.uid;
 
-          setId(user.uid);
+          (async () =>
+            gitUID &&
+            (await getGitHubUserData(gitUID).then((data) => {
+              const screenName = data.login;
+              setId(user.uid);
 
-          setNewUser({
-            ...newUser,
-            name: user.displayName,
-            email: user.email,
-            photo: user.photoURL,
-          });
+              setNewUser({
+                ...newUser,
+                name: screenName,
+                email: user.email,
+                photo: user.photoURL,
+              });
+            })))();
 
           setLoading(false);
           handleNext();

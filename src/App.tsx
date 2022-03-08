@@ -19,6 +19,8 @@ function renderRoute(route: AppRouteType, index: number): JSX.Element {
   );
 }
 
+// localStorage.clear();
+
 const App = (): JSX.Element => {
   return (
     <ThemeProvider theme={theme}>

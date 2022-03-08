@@ -21,6 +21,14 @@ export const voteFeatureRequest = async (id: string, votes: number) => {
     votes: votes + 1,
   });
 };
+
+export const updateNotificationsFreq = async (id: string, value: string) => {
+  const ref = doc(db, 'users', id);
+  await updateDoc(ref, {
+    notificationFrequency: value,
+  });
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const filterRoadmapsByStatus = (roadmaps: any, status: string) => {
   const filteredRoadmap = roadmaps.filter((roadmap: IFeatureRequest) => roadmap.status === status);
