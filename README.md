@@ -2,7 +2,7 @@
 
 A productivity tool to help developers complete the 100 days of code challenge by tracking progress, achieving badges and more.
 
-**Tech Stack:** React.js / Material-UI, TypeScript, Firebase, Netlify
+**Tech Stack:** React.js / Material-UI, TypeScript, Firebase
 
 **Contributors**: [Ahmad](https://github.com/Habib-Ahmad), [Nabil](https://github.com/arndom), [Omeiza](https://github.com/Omzlaw)
 
