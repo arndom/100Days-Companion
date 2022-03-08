@@ -24,7 +24,7 @@ const Landing = () => {
     }
   };
 
-  //handleloader after redirect
+  //handle loader after redirect
   useEffect(() => {
     const landingAuth = localStorage.getItem('afterLandingAuth');
     landingAuth === 'true' ? setLoading(true) : setLoading(false);

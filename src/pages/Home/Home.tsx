@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Skeleton, Tab, Tabs, Typography } from '@mui/material';
 import { useStyles } from './useStyles';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
 import { getAuth, signOut } from 'firebase/auth';
 
@@ -20,6 +20,7 @@ const Home = (): JSX.Element => {
   const [value, setValue] = useState(0);
   const [state] = useAuthContext();
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -28,6 +29,12 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     state.name && setLoading(false);
   }, [state]);
+
+  //redirect to milestones if authorized
+  useEffect(() => {
+    const isAuthenticated = state.name !== '';
+    isAuthenticated && navigate('/milestones');
+  }, [navigate, state]);
 
   const logout = () => {
     const auth = getAuth();
