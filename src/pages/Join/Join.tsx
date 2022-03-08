@@ -23,6 +23,7 @@ import { getDoc, setDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../../utils/firebaseConfig';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import BackdropLoader from '../../components/BackdropLoader/BackdropLoader';
 
 const steps = ['Connect Github', 'Select Path', 'Set Date '];
 const classes = useStyles;
@@ -37,6 +38,7 @@ const GithubButton = ({
   const provider = new GithubAuthProvider();
 
   const authenticate = () => {
+    localStorage.setItem('afterAuth', 'true');
     setLoading(true);
     signInWithRedirect(auth, provider);
     setLoading(false);
@@ -44,18 +46,13 @@ const GithubButton = ({
 
   return (
     <Button onClick={authenticate} variant="contained" sx={classes.rainbowbtn}>
-      {loading ? (
-        <CircularProgress sx={{ color: '#fff' }} />
-      ) : (
-        <>
-          <Typography mr={2}>Connect Github</Typography>
-          <img
-            src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
-            alt="GitHub"
-            style={{ width: '25px' }}
-          />
-        </>
-      )}
+      <BackdropLoader loading={loading} />
+      <Typography mr={2}>Connect Github</Typography>
+      <img
+        src="https://www.nicepng.com/png/full/52-520535_free-files-github-github-icon-png-white.png"
+        alt="GitHub"
+        style={{ width: '25px' }}
+      />
     </Button>
   );
 };
@@ -166,10 +163,14 @@ const Join = () => {
   };
 
   useEffect(() => {
+    const joinAuth = localStorage.getItem('afterAuth');
+    joinAuth === 'true' ? setLoading(true) : setLoading(false);
+  }, []);
+
+  useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
         if (result) {
-          setLoading(true);
           const user = result.user;
           const gitUID = user.providerData.find((pd) => pd.providerId === 'github.com')?.uid;
 
@@ -187,17 +188,21 @@ const Join = () => {
               });
             })))();
 
+          localStorage.setItem('afterAuth', '');
           setLoading(false);
           handleNext();
         }
       })
       .catch((error) => {
+        localStorage.setItem('afterAuth', '');
+        setLoading(false);
         console.error(error);
       });
   }, [newUser]);
 
   return (
     <Box sx={classes.root}>
+      <BackdropLoader loading={loading} />
       <Box sx={classes.stepperContainer}>
         <Stepper activeStep={activeStep}>
           {steps.map((label) => {

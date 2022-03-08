@@ -4,31 +4,43 @@ import { useStyles } from './useStyles';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../utils/firebaseConfig';
 import { getRedirectResult, GithubAuthProvider, signInWithRedirect } from 'firebase/auth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import BackdropLoader from '../../components/BackdropLoader/BackdropLoader';
 
 const Landing = () => {
   const classes = useStyles;
 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const checkNewUser = () => {
     const isReturningUser = localStorage.getItem('returningUser');
     if (isReturningUser) {
       const provider = new GithubAuthProvider();
       signInWithRedirect(auth, provider);
+      localStorage.setItem('afterLandingAuth', 'true');
     } else {
       navigate('/join');
     }
   };
 
   useEffect(() => {
+    const landingAuth = localStorage.getItem('afterLandingAuth');
+    landingAuth === 'true' ? setLoading(true) : setLoading(false);
+  }, []);
+
+  useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
         if (result) {
+          localStorage.setItem('afterLandingAuth', '');
+          setLoading(false);
           navigate('/milestones');
         }
       })
       .catch((error) => {
+        localStorage.setItem('afterLandingAuth', '');
+        setLoading(false);
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,6 +48,7 @@ const Landing = () => {
 
   return (
     <Grid container sx={classes.landing}>
+      <BackdropLoader loading={loading} />
       <Grid container sx={classes.header}>
         <Grid item xs={12} md={6} marginBottom={{ xs: 5, md: 0 }}>
           <Typography variant="h1" sx={classes.heading}>
