@@ -42,6 +42,7 @@ const AppWrapper: FunctionComponent = ({ children }): JSX.Element => {
           }
         }
       } else if (pathname === '/join') {
+      } else if (pathname === '/roadmap') {
       } else {
         // User is signed out
         navigate('/landing');

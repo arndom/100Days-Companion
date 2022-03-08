@@ -24,11 +24,13 @@ const Landing = () => {
     }
   };
 
+  //handleloader after redirect
   useEffect(() => {
     const landingAuth = localStorage.getItem('afterLandingAuth');
     landingAuth === 'true' ? setLoading(true) : setLoading(false);
   }, []);
 
+  //check redirect
   useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {

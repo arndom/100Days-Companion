@@ -32,7 +32,6 @@ import {
   Timestamp,
 } from '../../utils/firebaseUtils';
 const classes = useStyles;
-const isAuthenticated = true;
 
 interface IRoadmapStatusCard {
   status: string;
@@ -50,6 +49,8 @@ interface IFeatureModalDetails {
 interface IFeatureModal {
   item: IFeatureModalDetails;
 }
+
+const isAuthenticated = false;
 
 const RoadmapStatusCard = ({ status, color, items, loading }: IRoadmapStatusCard) => {
   // Feature Modal
@@ -189,7 +190,13 @@ const PublicRoadmap = () => {
 
   // Modal
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if (isAuthenticated) {
+      setOpen(true);
+    } else {
+      setAlert({ isTrue: true, message: 'Please sign-in suggesting!' });
+    }
+  };
   const handleClose = () => setOpen(false);
 
   // Form
