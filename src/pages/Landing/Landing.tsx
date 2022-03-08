@@ -14,11 +14,11 @@ const Landing = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const checkNewUser = () => {
+    localStorage.setItem('afterLandingAuth', 'true');
     const isReturningUser = localStorage.getItem('returningUser');
     if (isReturningUser) {
       const provider = new GithubAuthProvider();
       signInWithRedirect(auth, provider);
-      localStorage.setItem('afterLandingAuth', 'true');
     } else {
       navigate('/join');
     }

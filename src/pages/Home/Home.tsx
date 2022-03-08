@@ -50,7 +50,7 @@ const Home = (): JSX.Element => {
 
   const img = state.photo ? state.photo : '';
   const objToArray = (obj: IStack) => Object.keys(obj).map((key) => [key, obj[key]]);
-  const _stack = objToArray(state.stack);
+  const _stack = objToArray(state.stack).sort();
   const stack = _stack.filter((item) => item.includes(true)).map((item) => item[0]);
 
   return (
