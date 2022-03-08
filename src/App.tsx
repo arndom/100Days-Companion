@@ -4,6 +4,7 @@ import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRouteType, appRoutes } from './routes/app';
 import NotFound from './pages/NotFound/NotFound';
+import AppWrapper from './context/AuthContext';
 import Navabar from './components/Navabar/Navabar';
 import Footer from './components/Footer/Footer';
 
@@ -22,13 +23,15 @@ const App = (): JSX.Element => {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <CssBaseline />
-        <Navabar />
-        <Routes>
-          {appRoutes.map((route, index) => renderRoute(route, index))}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
+        <AppWrapper>
+          <CssBaseline />
+          <Navabar />
+          <Routes>
+            {appRoutes.map((route, index) => renderRoute(route, index))}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+        </AppWrapper>
       </BrowserRouter>
     </ThemeProvider>
   );
