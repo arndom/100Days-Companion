@@ -27,9 +27,14 @@ export const useStyles = {
       padding: '3px',
       display: 'block',
       marginLeft: 'auto',
+      width: 150,
 
       '&:hover': {
         border: 'none',
+      },
+
+      [theme.breakpoints.down('md')]: {
+        width: 120,
       },
     },
 
@@ -37,7 +42,7 @@ export const useStyles = {
       borderRadius: '30px',
       background: '#0e0219',
       width: '100%',
-      padding: theme.spacing(1, 3),
+      padding: theme.spacing(1),
       textTransform: 'none',
       fontSize: '1rem',
       color: '#fff',

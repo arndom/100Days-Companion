@@ -9,22 +9,22 @@ interface IMilestones {
 }
 
 interface IStack {
-  [Angular: string]: boolean;
   [JS: string]: boolean;
-  [Node: string]: boolean;
   [React: string]: boolean;
   [Vue: string]: boolean;
+  [Angular: string]: boolean;
+  [Node: string]: boolean;
 }
 
 interface IFirebaseUser {
+  name: string | null;
+  email: string | null;
+  photo: string | null;
   count: number;
-  email: string;
   milestones: IMilestones;
-  name: string;
-  notification_frequency: string;
-  photo: string;
+  notificationFrequency: string;
   stack: IStack;
-  start_date: string;
+  startDate: string | null;
 }
 
 interface IFeatureRequest {

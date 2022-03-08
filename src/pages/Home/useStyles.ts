@@ -34,6 +34,10 @@ export const useStyles = {
     justifyContent: 'left',
     width: 'fit-content',
 
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+
     [theme.breakpoints.down('sm')]: {
       margin: 'auto',
       justifyContent: 'center',
@@ -43,7 +47,7 @@ export const useStyles = {
   textWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     height: 120,
 
     '.MuiTypography-root': {

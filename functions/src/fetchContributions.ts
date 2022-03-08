@@ -192,3 +192,62 @@ export const updateCount = async () => {
     return { Failure: error };
   }
 };
+
+const calculateMilestone = (count: any) => {
+  const keys: string[] = [
+    'milestones.7days',
+    'milestones.14days',
+    'milestones.21days',
+    'milestones.30days',
+    'milestones.60days',
+    'milestones.90days',
+    'milestones.100days',
+  ];
+
+  if (count === 7) return { [keys[0]]: true };
+  if (count === 14) return { [keys[1]]: true };
+  if (count === 21) return { [keys[2]]: true };
+  if (count === 30) return { [keys[3]]: true };
+  if (count === 60) return { [keys[4]]: true };
+  if (count === 90) return { [keys[5]]: true };
+  if (count === 100) return { [keys[6]]: true };
+
+  return 'no update';
+};
+
+export const updateMilestone = async () => {
+  try {
+    const _users = await getUsersDetails();
+
+    const users = await Promise.all(
+      _users.map(async (user) => {
+        const res = await fetchUserContributionCount({ user: user.user, from: user.from });
+
+        const updatedMilestone = calculateMilestone(res);
+
+        const _user = {
+          id: user.id,
+          user: user.user,
+          count: res,
+          updatedMileStone: updatedMilestone,
+        };
+
+        if (updatedMilestone !== 'no update') {
+          db.collection('users')
+            .doc(user.id)
+            .update(updatedMilestone)
+            .then(() => {
+              console.log('Document successfully updated!');
+            });
+        }
+
+        console.log(_user);
+        return _user;
+      }),
+    );
+
+    return { sucess: 200, updatedUser: users };
+  } catch (error) {
+    return { Failure: error };
+  }
+};
