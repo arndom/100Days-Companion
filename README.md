@@ -5,8 +5,8 @@ A productivity tool to help developers complete the 100 days of code challenge b
 **Tech Stack:** React.js / Material-UI, TypeScript, Firebase
 
 **Deployed Links**:
-- [Netlify](https://companion.netlify.app/milestones)
-- [Azure](https://witty-island-06ab41710.1.azurestaticapps.net/milestones)
+- [Netlify](https://companion.netlify.app)
+- [Azure](https://witty-island-06ab41710.1.azurestaticapps.net)
 
 **Contributors**: [Ahmad](https://github.com/Habib-Ahmad), [Nabil](https://github.com/arndom), [Omeiza](https://github.com/Omzlaw)
 
