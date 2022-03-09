@@ -21,7 +21,7 @@ Track your progress and receive achieve badges for each milestone reached
 
 ### Statistics
 
-Get insights into your habits and patterns
+Get insights into your habits and patterns implemented using the GitHub API
 <br />
 
 ![image](https://user-images.githubusercontent.com/61251497/157244129-72b34c2b-1f76-4cd1-9e5f-c596a90a12c6.png)
